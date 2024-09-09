@@ -201,9 +201,6 @@ function resetGame() {
 
   hitchhikerObj.node.remove()
   // console.log('hitchhiker removed')
-  // if (hitchhikerObj) {
-  //   hitchhikerObj.node.remove(); // hitchhiker's node removed
-  // }
   hitchhikerObj = null
  
   gameIntervalId = null
@@ -212,6 +209,9 @@ function resetGame() {
   collisionCount = 0
 
   timer = 0
+  // updates timer to 00:00
+  checkTimer()
+  updateTimeDisplay()
   timerIntervalId = null
 }
 

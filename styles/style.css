@@ -44,6 +44,14 @@ button:active {
   background-color: #0045cf;
 }
 
+#play-again-btn {
+  background-color: #ee9938;
+}
+
+#play-again-btn:hover, #play-again-btn:active {
+  background-color: #d75306;
+}
+
 #play-again-btn-win {
   background-color: #fd66f8;
 }
