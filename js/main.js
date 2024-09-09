@@ -30,7 +30,7 @@ let collisionCount = 0
 
 let timer = 0
 let timerIntervalId = null
-let winningTime = 420 // ==> 2' 40'
+let winningTime = 24 // ==> 2' 40'
 
 // **********************************************************************
 // GLOBAL FUNCTIONS
