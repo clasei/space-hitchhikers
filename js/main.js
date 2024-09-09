@@ -214,5 +214,11 @@ document.addEventListener("keydown", (event) => {
   } else if (event.key === "ArrowLeft") {
     hitchhikerObj.moveX("left")
     // console.log('moving left')
+  } else if (event.key === "ArrowDown") {
+    hitchhikerObj.moveY("down")
+    // console.log('moving down')
+  } else if (event.key === "ArrowUp") {
+    hitchhikerObj.moveY("up")
+    // console.log('moving up')
   }
 })
