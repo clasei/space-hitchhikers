@@ -53,6 +53,6 @@ button:hover {
   padding-left: 25px;
 }
 
-#game-screen, #end-screen {
+#game-screen, #end-screen, #win-screen {
   display: none;
 }
