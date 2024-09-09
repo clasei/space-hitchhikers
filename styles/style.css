@@ -18,7 +18,7 @@ video {
 }
 
 button {
-  background-color: #4681f4 ;
+  background-color: #3075ff ;
   color: white;
   width: 150px;
   font-size: 13;
@@ -31,15 +31,17 @@ button {
   border-radius: 25px;
   box-shadow: 4px 2px 2px #849685;
   cursor: pointer;
-  transition: transform 0.4s ease;
+  transition: transform 0.4s ease, background-color 0.3s ease;
 }
 
 button:hover {
   transform: scale(1.10);
+  background-color: #0045cf;
 }
 
 button:active {
   transform: scale(0.90);
+  background-color: #0045cf;
 }
 
 #game-box {
