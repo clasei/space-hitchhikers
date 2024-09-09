@@ -87,17 +87,15 @@ function detectSpaceshipColision() {
       console.log('hitchhiker crashed!')
 
       eachSpaceship.isCrashed = true;
-
       collisionCount += 1
       eachSpaceship.node.src = "../assets/explosion-0.png" // changes image to show
 
       setTimeout(() => {
         eachSpaceship.node.remove()
-        spaceshipsArray.splice(index, 1)
+        spaceshipsArray.shift()
         console.log('spaceship removed after explosion')
       }, 500)
 
-      // // 1st version with no explosion
       // eachSpaceship.node.remove()
       // spaceshipsArray.splice(index, 1)
       // collisionCount += 1
