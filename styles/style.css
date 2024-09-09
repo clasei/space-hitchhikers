@@ -38,6 +38,10 @@ button:hover {
   transform: scale(1.10);
 }
 
+button:active {
+  transform: scale(0.90);
+}
+
 #game-box {
   background-color: #424242;
   width:600px;
