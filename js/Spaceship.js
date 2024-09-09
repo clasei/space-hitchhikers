@@ -1,9 +1,9 @@
 class Spaceship {
 
-  constructor() {
+  constructor(positionX) {
 
-    this.x = 300;
-    this.y = 200; // need to change to start outside the canvas
+    this.x = positionX;
+    this.y = -10; // forces the spaceships to start outside the canvas
     this.w = 37;
     this.h = 37;
     this.speed = 3;
@@ -18,5 +18,10 @@ class Spaceship {
     this.node.style.position = "absolute" // allows to adjust from top Y and left X inside the parent element (gameBoxNode)
     this.node.style.top = `${this.y}px`
     this.node.style.left = `${this.x}px`
+  }
+
+  moveDown() {
+    this.y += this.speed
+    this.node.style.top = `${this.y}px`
   }
 }
