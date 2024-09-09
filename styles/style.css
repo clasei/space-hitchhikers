@@ -16,15 +16,15 @@ video {
   width: 250px;
 }
 
-#start-btn {
+button {
   background-color: #4681f4 ;
   color: white;
-  width: 130px;
-  font-size: 17px;
+  width: 150px;
+  font-size: 16px;
   font-family: sans-serif;
   font-weight: 600;
   text-shadow: 1px 1px 1px #fce149;
-  letter-spacing: 4px;
+  letter-spacing: 3px;
   padding: 13px;
   margin-top: 30px;
   border-radius: 25px;
@@ -33,7 +33,7 @@ video {
   transition: transform 0.4s ease;
 }
 
-#start-btn:hover {
+button:hover {
   transform: scale(1.10);
 }
 
