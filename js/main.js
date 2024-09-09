@@ -76,6 +76,8 @@ function detectSpaceshipColision() {
 
   spaceshipsArray.forEach((eachSpaceship, index) => { // index added to remove each spaceship after collision
 
+    if (eachSpaceship.isCrashed) return;
+
     if (
       hitchhikerObj.x < eachSpaceship.x + eachSpaceship.w &&
       hitchhikerObj.x + hitchhikerObj.w > eachSpaceship.x &&
@@ -84,24 +86,27 @@ function detectSpaceshipColision() {
     ) {
       console.log('hitchhiker crashed!')
 
+      eachSpaceship.isCrashed = true;
+
       collisionCount += 1
       eachSpaceship.node.src = "../assets/explosion-0.png" // changes image to show
 
-      
-      eachSpaceship.node.remove()
-      spaceshipsArray.splice(index, 1)
-      
-      
-      
+      setTimeout(() => {
+        eachSpaceship.node.remove()
+        spaceshipsArray.splice(index, 1)
+        console.log('spaceship removed after explosion')
+      }, 500)
+
+      // // 1st version with no explosion
+      // eachSpaceship.node.remove()
+      // spaceshipsArray.splice(index, 1)
       // collisionCount += 1
 
-      // setTimeout(() => {
-      //   eachSpaceship.node.remove()
-      //   spaceshipsArray.shift()
-      // }, 50)
-
       if (collisionCount >= 3) {
-        gameOver()
+        setTimeout(() => {
+          gameOver()
+        }, 500)
+        
       }
     }
   })
