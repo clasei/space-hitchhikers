@@ -15,6 +15,8 @@ const gameBoxNode = document.querySelector("#game-box")
 
 let hitchhikerObj = null; // hitchiker created and accesible
 
+let spaceshipsArray = []
+let spaceshipsFrequency = 700
 
 let gameIntervalId = null;
 
@@ -39,12 +41,31 @@ function startGame() {
     gameLoop() // this function will be executed each 60"
   }, Math.round(1000/60))
 
+  spaceshipsIntervalId = setInterval(() => {
+    moveSpaceship()
+  }, spaceshipsFrequency)
+
 
 }
 
 function gameLoop() {
   // console.log('game loop starting')
 
+  spaceshipsArray.forEach((eachSpaceship) => {
+    eachSpaceship.moveDown()
+  })
+
+
+}
+
+function moveSpaceship() {
+
+  let randomPositionX = Math.random() * (gameBoxNode.offsetWidth - 25)
+
+  let newSpaceship = new Spaceship(randomPositionX)
+  spaceshipsArray.push(newSpaceship)
+
+  console.log(spaceshipsArray)
 
 }
 
