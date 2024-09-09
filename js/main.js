@@ -91,9 +91,9 @@ function detectSpaceshipColision() {
 
       setTimeout(() => {
         eachSpaceship.node.remove()
-        spaceshipsArray.splice(index, 1) // splice instead of shift
+        spaceshipsArray.splice(index, 0) // splice instead of shift?
         console.log('spaceship removed after explosion')
-      }, 500)
+      }, 200)
 
       // eachSpaceship.node.remove()
       // spaceshipsArray.splice(index, 1)
@@ -102,7 +102,7 @@ function detectSpaceshipColision() {
       if (collisionCount >= 3) {
         setTimeout(() => {
           gameOver()
-        }, 500)
+        }, 300)
         
       }
     }
@@ -137,33 +137,23 @@ function resetGame() {
   gameScreenNode.style.display = "none"
   endScreenNode.style.display = "none"
 
-  
-  
-  // spaceshipsArray.remove()
   spaceshipsArray.forEach((eachSpaceship) => {
     eachSpaceship.node.remove(); // Ensure each spaceship's node is removed
   });
   spaceshipsArray = []
- // spaceshipsArray = []
   spaceshipsFrequency = 840
 
-  // hitchhikerObj.node.remove()
-  // hitchhikerObj = null
-
-  
-
-  //  && hitchhikerObj.node
-  if (hitchhikerObj) {
-    hitchhikerObj.node.remove(); // hitchhiker's node is removed
-  }
-
+  hitchhikerObj.node.remove()
+  // console.log('hitchhiker removed')
+  // if (hitchhikerObj) {
+  //   hitchhikerObj.node.remove(); // hitchhiker's node removed
+  // }
+  hitchhikerObj = null
  
-
   gameIntervalId = null
   spaceshipsIntervalId = null
 
   collisionCount = 0
-  
 }
 
 
