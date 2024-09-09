@@ -78,11 +78,20 @@ function detectSpaceshipColision() {
       hitchhikerObj.x + hitchhikerObj.w > eachSpaceship.x &&
       hitchhikerObj.y < eachSpaceship.y + eachSpaceship.h &&
       hitchhikerObj.y + hitchhikerObj.h > eachSpaceship.y
-    )
-
-    console.log('crash-spaceship!')
+    ) {
+      console.log('hitchhiker crashed!')
+      gameOver()
+    }
   })
+}
 
+function gameOver() {
+
+  clearInterval(gameIntervalId)
+  clearInterval(spaceshipsIntervalId)
+
+  gameScreenNode.style.display = "none"
+  endScreenNode.style.display = "flex"
 }
 
 
