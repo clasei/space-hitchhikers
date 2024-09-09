@@ -13,6 +13,8 @@ const gameBoxNode = document.querySelector("#game-box")
 // **********************************************************************
 // GLOBAL VARIABLES
 
+let hitchhikerObj = null; // hitchiker created and accesible
+
 
 
 
@@ -20,12 +22,25 @@ const gameBoxNode = document.querySelector("#game-box")
 // **********************************************************************
 // GLOBAL FUNCTIONS
 
+// // initiate game; shows only start-screen at the beginning --> not needed, applied in CSS
+// function initializeGame() {
+//   startScreenNode.style.display = "flex"
+//   gameScreenNode.style.display = "none"
+//   endScreenNode.style.display = "none"
+// }
+
 // start game function
 function startGame() {
-  console.log('start click')
+  // console.log('start click')
 
+  // change start to game screen
   startScreenNode.style.display = "none"
   gameScreenNode.style.display = "flex"
+
+  hitchhikerObj = new Hitchhiker() 
+
+
+
 }
 
 
@@ -39,3 +54,7 @@ startBtnNode.addEventListener("click", startGame)
 
 
 
+// // **********************************************************************
+// // INITIALIZE GAME --> not needed, applied in CSS
+
+// initializeGame()

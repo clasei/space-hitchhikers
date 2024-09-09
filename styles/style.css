@@ -8,7 +8,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 75px;
+  margin: 50px;
 }
 
 video {
@@ -35,4 +35,24 @@ video {
 
 #start-btn:hover {
   transform: scale(1.10);
+}
+
+#game-box {
+  background-color: #424242;
+  width:600px;
+  height:400px;
+  border-radius: 25px;
+
+  position: relative; /* allows elements to be absolute-positioned within the game-box */
+  overflow: hidden;
+  user-select: none; /* avoids click effects */
+
+  background-image: url(../assets/space-box-4.jpg);
+  background-position: center;
+  background-size: cover;
+}
+
+
+#game-screen, #end-screen {
+  display: none;
 }
