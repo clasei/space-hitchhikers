@@ -33,7 +33,7 @@ function startGame() {
   gameScreenNode.style.display = "flex"
 
   hitchhikerObj = new Hitchhiker() 
-  spaceshipObj = new Spaceship()
+  // spaceshipObj = new Spaceship() // not needed, array created
 
   // GAME-INTERVAL CREATED BELOW
   gameIntervalId = setInterval(() => {
@@ -55,17 +55,33 @@ function gameLoop() {
     eachSpaceship.moveDown()
   })
 
+  detectSpaceshipColision()
 
 }
 
 function moveSpaceship() {
 
-  let randomPositionX = Math.random() * (gameBoxNode.offsetWidth - 25)
+  let randomPositionX = Math.random() * (gameBoxNode.offsetWidth - 37)
 
   let newSpaceship = new Spaceship(randomPositionX)
   spaceshipsArray.push(newSpaceship)
+  // console.log(spaceshipsArray)
 
-  console.log(spaceshipsArray)
+}
+
+function detectSpaceshipColision() {
+
+  spaceshipsArray.forEach((eachSpaceship) => {
+
+    if (
+      hitchhikerObj.x < eachSpaceship.x + eachSpaceship.w &&
+      hitchhikerObj.x + hitchhikerObj.w > eachSpaceship.x &&
+      hitchhikerObj.y < eachSpaceship.y + eachSpaceship.h &&
+      hitchhikerObj.y + hitchhikerObj.h > eachSpaceship.y
+    )
+
+    console.log('crash-spaceship!')
+  })
 
 }
 
@@ -78,13 +94,13 @@ function moveSpaceship() {
 startBtnNode.addEventListener("click", startGame)
 
 document.addEventListener("keydown", (event) => {
-  console.log('pressing key')
+  // console.log('pressing key')
 
   if (event.key === "ArrowRight") {
     hitchhikerObj.moveX("right")
-    console.log('moving right')
+    // console.log('moving right')
   } else if (event.key === "ArrowLeft") {
     hitchhikerObj.moveX("left")
-    console.log('moving left')
+    // console.log('moving left')
   }
 })

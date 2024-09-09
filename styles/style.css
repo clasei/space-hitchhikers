@@ -50,10 +50,7 @@ video {
   background-size: cover;
   
   border-radius: 25px;
-  
-
-  
-  
+  padding-left: 25px;
 }
 
 #game-screen, #end-screen {

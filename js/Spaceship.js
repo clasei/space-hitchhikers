@@ -3,7 +3,7 @@ class Spaceship {
   constructor(positionX) {
 
     this.x = positionX;
-    this.y = -50; // forces the spaceships to start outside the canvas
+    this.y = -10; // forces the spaceships to start outside the canvas
     this.w = 37;
     this.h = 37;
     this.speed = 3;
