@@ -17,7 +17,7 @@ const gameBoxNode = document.querySelector("#game-box")
 let hitchhikerObj = null // hitchiker created and accesible
 
 let spaceshipsArray = []
-let spaceshipsFrequency = 500
+let spaceshipsFrequency = 840
 
 let gameIntervalId = null
 let spaceshipsIntervalId = null
@@ -47,7 +47,6 @@ function startGame() {
   spaceshipsIntervalId = setInterval(() => {
     moveSpaceship()
   }, spaceshipsFrequency)
-
 }
 
 
@@ -76,6 +75,8 @@ function detectSpaceshipColision() {
 
   spaceshipsArray.forEach((eachSpaceship, index) => { // index added to remove each spaceship after collision
 
+    if (eachSpaceship.isCrashed) return;
+
     if (
       hitchhikerObj.x < eachSpaceship.x + eachSpaceship.w &&
       hitchhikerObj.x + hitchhikerObj.w > eachSpaceship.x &&
@@ -84,24 +85,25 @@ function detectSpaceshipColision() {
     ) {
       console.log('hitchhiker crashed!')
 
+      eachSpaceship.isCrashed = true;
       collisionCount += 1
       eachSpaceship.node.src = "../assets/explosion-0.png" // changes image to show
 
-      
-      eachSpaceship.node.remove()
-      spaceshipsArray.splice(index, 1)
-      
-      
-      
+      setTimeout(() => {
+        eachSpaceship.node.remove()
+        spaceshipsArray.shift()
+        console.log('spaceship removed after explosion')
+      }, 300)
+
+      // eachSpaceship.node.remove()
+      // spaceshipsArray.splice(index, 1)
       // collisionCount += 1
 
-      // setTimeout(() => {
-      //   eachSpaceship.node.remove()
-      //   spaceshipsArray.shift()
-      // }, 50)
-
       if (collisionCount >= 3) {
-        gameOver()
+        setTimeout(() => {
+          gameOver()
+        }, 420)
+        
       }
     }
   })
