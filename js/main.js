@@ -2,10 +2,12 @@
 const startScreenNode = document.querySelector("#start-screen")
 const gameScreenNode = document.querySelector("#game-screen")
 const endScreenNode = document.querySelector("#end-screen")
+const winScreenNode = document.querySelector("#win-screen")
 
 // buttons
 const startBtnNode = document.querySelector("#start-btn")
 const againBtnNode = document.querySelector("#play-again-btn")
+const winBtnNode = document.querySelector("#play-again-btn-win")
 
 // game-box
 const gameBoxNode = document.querySelector("#game-box")
@@ -17,13 +19,16 @@ const gameBoxNode = document.querySelector("#game-box")
 let hitchhikerObj = null // hitchiker created and accesible
 
 let spaceshipsArray = []
-let spaceshipsFrequency = 840
+let spaceshipsFrequency = 420
 
 let gameIntervalId = null
 let spaceshipsIntervalId = null
 
 let collisionCount = 0
 
+let timer = 0
+let timerIntervalId = null
+let winningTime = 24 // == 2' 40'
 
 // **********************************************************************
 // GLOBAL FUNCTIONS
@@ -36,7 +41,7 @@ function startGame() {
   startScreenNode.style.display = "none"
   gameScreenNode.style.display = "flex"
   hitchhikerObj = new Hitchhiker() 
-  // spaceshipObj = new Spaceship() // not needed, array created
+  // spaceshipObj = new Spaceship() // not needed, array created in moveSpaceship()
 
   // GAME-INTERVAL CREATED BELOW
   gameIntervalId = setInterval(() => {
@@ -47,6 +52,11 @@ function startGame() {
   spaceshipsIntervalId = setInterval(() => {
     moveSpaceship()
   }, spaceshipsFrequency)
+
+  timerIntervalId = setInterval(() => {
+    timer++
+    console.log(timer)
+  }, 1000)
 }
 
 
@@ -58,6 +68,7 @@ function gameLoop() {
 
   detectSpaceshipColision()
   removeSkippedSpaceships()
+  checkTimer()
 
 }
 
@@ -91,9 +102,9 @@ function detectSpaceshipColision() {
 
       setTimeout(() => {
         eachSpaceship.node.remove()
-        spaceshipsArray.shift()
+        spaceshipsArray.splice(index, 0) // splice instead of shift?
         console.log('spaceship removed after explosion')
-      }, 300)
+      }, 200)
 
       // eachSpaceship.node.remove()
       // spaceshipsArray.splice(index, 1)
@@ -102,7 +113,7 @@ function detectSpaceshipColision() {
       if (collisionCount >= 3) {
         setTimeout(() => {
           gameOver()
-        }, 420)
+        }, 300)
         
       }
     }
@@ -120,22 +131,63 @@ function removeSkippedSpaceships() {
   })
 }
 
+function checkTimer() {
+  if (timer > winningTime) {
+    winGame()
+  }
+}
+
 
 function gameOver() {
   clearInterval(gameIntervalId)
   clearInterval(spaceshipsIntervalId)
+  clearInterval(timerIntervalId)
 
   gameScreenNode.style.display = "none"
   endScreenNode.style.display = "flex"
 }
 
-// function resetGame() {
-//   spaceshipsArray.forEach((eachSpaceship) => {
-//     eachSpaceship.node.remove()
-//   })
-//   spaceshipsArray = []
-//   hitchhikerObj = null
-// }
+function winGame() {
+  clearInterval(gameIntervalId)
+  clearInterval(spaceshipsIntervalId)
+  clearInterval(timerIntervalId)
+
+  gameScreenNode.style.display = "none"
+  winScreenNode.style.display = "flex"
+}
+
+
+function resetGame() {
+  clearInterval(gameIntervalId)
+  clearInterval(spaceshipsIntervalId)
+  clearInterval(timerIntervalId)
+
+  startScreenNode.style.display = "flex"
+  gameScreenNode.style.display = "none"
+  endScreenNode.style.display = "none"
+  winScreenNode.style.display = "none"
+
+  spaceshipsArray.forEach((eachSpaceship) => {
+    eachSpaceship.node.remove(); // Ensure each spaceship's node is removed
+  });
+  spaceshipsArray = []
+  spaceshipsFrequency = 840
+
+  hitchhikerObj.node.remove()
+  // console.log('hitchhiker removed')
+  // if (hitchhikerObj) {
+  //   hitchhikerObj.node.remove(); // hitchhiker's node removed
+  // }
+  hitchhikerObj = null
+ 
+  gameIntervalId = null
+  spaceshipsIntervalId = null
+
+  collisionCount = 0
+
+  timer = 0
+  timerIntervalId = null
+}
 
 
 // **********************************************************************
@@ -144,7 +196,9 @@ function gameOver() {
 // start button click
 startBtnNode.addEventListener("click", startGame)
 
-// againBtnNode.addEventListener("click", startGame)
+againBtnNode.addEventListener("click", resetGame)
+
+winBtnNode.addEventListener("click", resetGame)
 
 document.addEventListener("keydown", (event) => {
   // console.log('pressing key')
