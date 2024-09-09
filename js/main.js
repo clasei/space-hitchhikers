@@ -12,6 +12,8 @@ const winBtnNode = document.querySelector("#play-again-btn-win")
 // game-box
 const gameBoxNode = document.querySelector("#game-box")
 
+// timer
+const timeDisplayNode = document.querySelector("#time-display")
 
 // **********************************************************************
 // GLOBAL VARIABLES
@@ -19,7 +21,7 @@ const gameBoxNode = document.querySelector("#game-box")
 let hitchhikerObj = null // hitchiker created and accesible
 
 let spaceshipsArray = []
-let spaceshipsFrequency = 420
+let spaceshipsFrequency = 700
 
 let gameIntervalId = null
 let spaceshipsIntervalId = null
@@ -28,7 +30,7 @@ let collisionCount = 0
 
 let timer = 0
 let timerIntervalId = null
-let winningTime = 24 // ==> 2' 40'
+let winningTime = 420 // ==> 2' 40'
 
 // **********************************************************************
 // GLOBAL FUNCTIONS
@@ -42,6 +44,8 @@ function startGame() {
   gameScreenNode.style.display = "flex"
   hitchhikerObj = new Hitchhiker() 
   // spaceshipObj = new Spaceship() // not needed, array created in moveSpaceship()
+
+  
 
   // GAME-INTERVAL CREATED BELOW
   gameIntervalId = setInterval(() => {
@@ -57,7 +61,26 @@ function startGame() {
     timer++
     console.log(timer)
     checkTimer()
+    updateTimeDisplay()
   }, 1000) // increases timer after 1"
+}
+
+
+function convertTime(seconds) {
+  let minutes = Math.floor(seconds / 60)
+  let secondsLeft = seconds % 60
+  // .padStart() method available as alternative to display time fine...
+  if (minutes < 10) {
+    minutes = '0' + minutes;
+  }
+  if (secondsLeft < 10) {
+    secondsLeft = '0' + secondsLeft;
+  }
+  return `${minutes}:${secondsLeft}`;
+}
+
+function updateTimeDisplay() {
+  timeDisplayNode.innerHTML = convertTime(timer)
 }
 
 
@@ -69,8 +92,6 @@ function gameLoop() {
 
   detectSpaceshipColision()
   removeSkippedSpaceships()
-  // checkTimer() // moved to startGame -> timeIntervalId to be executed each 1"
-
 }
 
 
@@ -176,7 +197,7 @@ function resetGame() {
     eachSpaceship.node.remove(); // Ensure each spaceship's node is removed
   });
   spaceshipsArray = []
-  spaceshipsFrequency = 1000
+  spaceshipsFrequency = 700
 
   hitchhikerObj.node.remove()
   // console.log('hitchhiker removed')
