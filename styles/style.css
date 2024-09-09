@@ -1,0 +1,61 @@
+body {
+  margin: 0;
+  background-color: #424242;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 50px;
+}
+
+video {
+  border-radius: 25px;
+  width: 250px;
+}
+
+#start-btn {
+  background-color: #4681f4 ;
+  color: white;
+  width: 130px;
+  font-size: 17px;
+  font-family: sans-serif;
+  font-weight: 600;
+  text-shadow: 1px 1px 1px #fce149;
+  letter-spacing: 4px;
+  padding: 13px;
+  margin-top: 30px;
+  border-radius: 25px;
+  box-shadow: 5px 3px 3px #849685;
+  cursor: pointer;
+  transition: transform 0.4s ease;
+}
+
+#start-btn:hover {
+  transform: scale(1.10);
+}
+
+#game-box {
+  background-color: #424242;
+  width:600px;
+  height:400px;
+  position: relative; /* allows elements to be absolute-positioned within the game-box */
+  overflow: hidden;
+  user-select: none; /* avoids click effects */
+  
+  background-image: url(../assets/space-box-4-darker.jpg);
+  background-position: center;
+  background-size: cover;
+  
+  border-radius: 25px;
+  
+
+  
+  
+}
+
+#game-screen, #end-screen {
+  display: none;
+}
