@@ -41,17 +41,20 @@ video {
   background-color: #424242;
   width:600px;
   height:400px;
-  border-radius: 25px;
-
   position: relative; /* allows elements to be absolute-positioned within the game-box */
   overflow: hidden;
   user-select: none; /* avoids click effects */
-
-  background-image: url(../assets/space-box-4.jpg);
+  
+  background-image: url(../assets/space-box-4-darker.jpg);
   background-position: center;
   background-size: cover;
-}
+  
+  border-radius: 25px;
+  
 
+  
+  
+}
 
 #game-screen, #end-screen {
   display: none;

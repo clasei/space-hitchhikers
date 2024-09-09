@@ -16,18 +16,11 @@ const gameBoxNode = document.querySelector("#game-box")
 let hitchhikerObj = null; // hitchiker created and accesible
 
 
-
+let gameIntervalId = null;
 
 
 // **********************************************************************
 // GLOBAL FUNCTIONS
-
-// // initiate game; shows only start-screen at the beginning --> not needed, applied in CSS
-// function initializeGame() {
-//   startScreenNode.style.display = "flex"
-//   gameScreenNode.style.display = "none"
-//   endScreenNode.style.display = "none"
-// }
 
 // start game function
 function startGame() {
@@ -38,7 +31,19 @@ function startGame() {
   gameScreenNode.style.display = "flex"
 
   hitchhikerObj = new Hitchhiker() 
+  spaceshipObj = new Spaceship()
 
+  // GAME-INTERVAL CREATED BELOW
+  gameIntervalId = setInterval(() => {
+    // console.log('interval running')
+    gameLoop() // this function will be executed each 60"
+  }, Math.round(1000/60))
+
+
+}
+
+function gameLoop() {
+  // console.log('game loop starting')
 
 
 }
@@ -51,10 +56,14 @@ function startGame() {
 // start button click
 startBtnNode.addEventListener("click", startGame)
 
+document.addEventListener("keydown", (event) => {
+  console.log('pressing key')
 
-
-
-// // **********************************************************************
-// // INITIALIZE GAME --> not needed, applied in CSS
-
-// initializeGame()
+  if (event.key === "ArrowRight") {
+    hitchhikerObj.moveX("right")
+    console.log('moving right')
+  } else if (event.key === "ArrowLeft") {
+    hitchhikerObj.moveX("left")
+    console.log('moving left')
+  }
+})
