@@ -96,6 +96,10 @@ function detectSpaceshipColision() {
     ) {
       console.log('hitchhiker crashed!')
 
+      let explosionEffect = new Audio("../assets/audio/explosion_002.wav")
+      explosionEffect.volume = 0.42
+      explosionEffect.play()
+
       eachSpaceship.isCrashed = true;
       collisionCount += 1
       eachSpaceship.node.src = "../assets/explosion-0.png" // changes image to show
@@ -104,7 +108,7 @@ function detectSpaceshipColision() {
         eachSpaceship.node.remove()
         spaceshipsArray.splice(index, 0) // splice instead of shift?
         console.log('spaceship removed after explosion')
-      }, 200)
+      }, 500)
 
       // eachSpaceship.node.remove()
       // spaceshipsArray.splice(index, 1)
@@ -113,7 +117,7 @@ function detectSpaceshipColision() {
       if (collisionCount >= 3) {
         setTimeout(() => {
           gameOver()
-        }, 300)
+        }, 500)
         
       }
     }
