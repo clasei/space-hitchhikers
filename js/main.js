@@ -17,7 +17,7 @@ const gameBoxNode = document.querySelector("#game-box")
 let hitchhikerObj = null // hitchiker created and accesible
 
 let spaceshipsArray = []
-let spaceshipsFrequency = 500
+let spaceshipsFrequency = 840
 
 let gameIntervalId = null
 let spaceshipsIntervalId = null
@@ -47,7 +47,6 @@ function startGame() {
   spaceshipsIntervalId = setInterval(() => {
     moveSpaceship()
   }, spaceshipsFrequency)
-
 }
 
 
@@ -94,7 +93,7 @@ function detectSpaceshipColision() {
         eachSpaceship.node.remove()
         spaceshipsArray.shift()
         console.log('spaceship removed after explosion')
-      }, 500)
+      }, 300)
 
       // eachSpaceship.node.remove()
       // spaceshipsArray.splice(index, 1)
@@ -103,7 +102,7 @@ function detectSpaceshipColision() {
       if (collisionCount >= 3) {
         setTimeout(() => {
           gameOver()
-        }, 500)
+        }, 420)
         
       }
     }
