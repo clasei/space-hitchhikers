@@ -31,7 +31,7 @@ let collisionCount = 0
 
 let timer = 0
 let timerIntervalId = null
-let winningTime = 24 // ==> 2' 40'
+let winningTime = 42 // ==> 2' 40'
 
 // **********************************************************************
 // GLOBAL FUNCTIONS
@@ -45,8 +45,6 @@ function startGame() {
   gameScreenNode.style.display = "flex"
   hitchhikerObj = new Hitchhiker() 
   // spaceshipObj = new Spaceship() // not needed, array created in moveSpaceship()
-
-  
 
   // GAME-INTERVAL CREATED BELOW
   gameIntervalId = setInterval(() => {
@@ -64,6 +62,8 @@ function startGame() {
     checkTimer()
     updateTimeDisplay()
   }, 1000) // increases timer after 1"
+
+  increaseSpaceshipSpeed()
 }
 
 
@@ -156,6 +156,16 @@ function removeSkippedSpaceships() {
       // console.log('spaceship removed')
     }
   })
+}
+
+function increaseSpaceshipSpeed() {
+  if (spaceshipSpeed >= 10) // sets limit to speed increasement
+    return;
+
+  setInterval(() => {
+    spaceshipSpeed += 0.5
+    console.log(`spaceship speed increased, speed = ${spaceshipSpeed}`)
+  }, 15000)
 }
 
 function checkTimer() {
