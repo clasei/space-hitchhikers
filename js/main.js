@@ -31,7 +31,7 @@ let collisionCount = 0
 
 let timer = 0
 let timerIntervalId = null
-let winningTime = 42 // ==> 2' 40'
+let winningTime = 260 // ==> 2' 40'
 
 // **********************************************************************
 // GLOBAL FUNCTIONS
@@ -58,7 +58,7 @@ function startGame() {
 
   timerIntervalId = setInterval(() => {
     timer++
-    console.log(timer)
+    // console.log(timer)
     checkTimer()
     updateTimeDisplay()
   }, 1000) // increases timer after 1"
@@ -101,7 +101,7 @@ function moveSpaceship() {
 
   let newSpaceship = new Spaceship(randomPositionX, spaceshipSpeed)
   spaceshipsArray.push(newSpaceship)
-  console.log('spaceship created')
+  // console.log('spaceship created')
 
 }
 
@@ -120,7 +120,7 @@ function detectSpaceshipColision() {
       console.log('hitchhiker crashed!')
 
       let explosionEffect = new Audio("../assets/audio/explosion_002.wav")
-      explosionEffect.volume = 0.10
+      explosionEffect.volume = 0.05
       explosionEffect.play()
 
       eachSpaceship.isCrashed = true;
@@ -159,13 +159,13 @@ function removeSkippedSpaceships() {
 }
 
 function increaseSpaceshipSpeed() {
-  if (spaceshipSpeed >= 10) // sets limit to speed increasement
+  if (spaceshipSpeed >= 9) // sets limit to speed increasement
     return;
 
   setInterval(() => {
     spaceshipSpeed += 0.5
     console.log(`spaceship speed increased, speed = ${spaceshipSpeed}`)
-  }, 15000)
+  }, 20000)
 }
 
 function checkTimer() {
@@ -254,3 +254,32 @@ document.addEventListener("keydown", (event) => {
     // console.log('moving up')
   }
 })
+
+// SMOOTH MOVEMENT ALTERNATIVE OPTION -> LOWER hitchhiker.speed to 5
+
+// let keysPressed = {}
+
+// document.addEventListener("keydown", (event) => {
+//   keysPressed[event.key] = true;
+// });
+
+// document.addEventListener("keyup", (event) => {
+//   keysPressed[event.key] = false;
+// });
+
+// function updateMovement() {
+//   if (keysPressed["d"]) {
+//     hitchhikerObj.moveX("right");
+//   }
+//   if (keysPressed["a"]) {
+//     hitchhikerObj.moveX("left");
+//   }
+//   if (keysPressed["w"]) {
+//     hitchhikerObj.moveY("up");
+//   }
+//   if (keysPressed["s"]) {
+//     hitchhikerObj.moveY("down");
+//   }
+// }
+
+// setInterval(updateMovement, 16);
