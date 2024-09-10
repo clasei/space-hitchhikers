@@ -12,6 +12,8 @@ const winBtnNode = document.querySelector("#play-again-btn-win")
 // game-box
 const gameBoxNode = document.querySelector("#game-box")
 
+// timer
+const timeDisplayNode = document.querySelector("#time-display")
 
 // **********************************************************************
 // GLOBAL VARIABLES
@@ -19,7 +21,8 @@ const gameBoxNode = document.querySelector("#game-box")
 let hitchhikerObj = null // hitchiker created and accesible
 
 let spaceshipsArray = []
-let spaceshipsFrequency = 420
+let spaceshipsFrequency = 700 // Math.random() * 2400
+let spaceshipSpeed = 3
 
 let gameIntervalId = null
 let spaceshipsIntervalId = null
@@ -28,7 +31,7 @@ let collisionCount = 0
 
 let timer = 0
 let timerIntervalId = null
-let winningTime = 24 // ==> 2' 40'
+let winningTime = 260 // ==> 2' 40'
 
 // **********************************************************************
 // GLOBAL FUNCTIONS
@@ -55,9 +58,30 @@ function startGame() {
 
   timerIntervalId = setInterval(() => {
     timer++
-    console.log(timer)
+    // console.log(timer)
     checkTimer()
+    updateTimeDisplay()
   }, 1000) // increases timer after 1"
+
+  increaseSpaceshipSpeed()
+}
+
+
+function convertTime(seconds) {
+  let minutes = Math.floor(seconds / 60)
+  let secondsLeft = seconds % 60
+  // .padStart() method available as alternative to display time fine...
+  if (minutes < 10) {
+    minutes = '0' + minutes;
+  }
+  if (secondsLeft < 10) {
+    secondsLeft = '0' + secondsLeft;
+  }
+  return `${minutes}:${secondsLeft}`;
+}
+
+function updateTimeDisplay() {
+  timeDisplayNode.innerHTML = convertTime(timer)
 }
 
 
@@ -69,17 +93,15 @@ function gameLoop() {
 
   detectSpaceshipColision()
   removeSkippedSpaceships()
-  // checkTimer() // moved to startGame -> timeIntervalId to be executed each 1"
-
 }
 
 
 function moveSpaceship() {
   let randomPositionX = Math.random() * (gameBoxNode.offsetWidth - 37)
 
-  let newSpaceship = new Spaceship(randomPositionX)
+  let newSpaceship = new Spaceship(randomPositionX, spaceshipSpeed)
   spaceshipsArray.push(newSpaceship)
-  // console.log(spaceshipsArray)
+  // console.log('spaceship created')
 
 }
 
@@ -98,7 +120,7 @@ function detectSpaceshipColision() {
       console.log('hitchhiker crashed!')
 
       let explosionEffect = new Audio("../assets/audio/explosion_002.wav")
-      explosionEffect.volume = 0.25
+      explosionEffect.volume = 0.05
       explosionEffect.play()
 
       eachSpaceship.isCrashed = true;
@@ -134,6 +156,16 @@ function removeSkippedSpaceships() {
       // console.log('spaceship removed')
     }
   })
+}
+
+function increaseSpaceshipSpeed() {
+  if (spaceshipSpeed >= 9) // sets limit to speed increasement
+    return;
+
+  setInterval(() => {
+    spaceshipSpeed += 0.5
+    console.log(`spaceship speed increased, speed = ${spaceshipSpeed}`)
+  }, 20000)
 }
 
 function checkTimer() {
@@ -176,13 +208,10 @@ function resetGame() {
     eachSpaceship.node.remove(); // Ensure each spaceship's node is removed
   });
   spaceshipsArray = []
-  spaceshipsFrequency = 1000
+  spaceshipsFrequency = 700
 
   hitchhikerObj.node.remove()
   // console.log('hitchhiker removed')
-  // if (hitchhikerObj) {
-  //   hitchhikerObj.node.remove(); // hitchhiker's node removed
-  // }
   hitchhikerObj = null
  
   gameIntervalId = null
@@ -191,6 +220,9 @@ function resetGame() {
   collisionCount = 0
 
   timer = 0
+  // updates timer to 00:00
+  checkTimer()
+  updateTimeDisplay()
   timerIntervalId = null
 }
 
@@ -208,11 +240,46 @@ winBtnNode.addEventListener("click", resetGame)
 document.addEventListener("keydown", (event) => {
   // console.log('pressing key')
 
-  if (event.key === "ArrowRight") {
+  if (event.key === "d") {
     hitchhikerObj.moveX("right")
     // console.log('moving right')
-  } else if (event.key === "ArrowLeft") {
+  } else if (event.key === "a") {
     hitchhikerObj.moveX("left")
     // console.log('moving left')
+  } else if (event.key === "s") {
+    hitchhikerObj.moveY("down")
+    // console.log('moving down')
+  } else if (event.key === "w") {
+    hitchhikerObj.moveY("up")
+    // console.log('moving up')
   }
 })
+
+// SMOOTH MOVEMENT ALTERNATIVE OPTION -> LOWER hitchhiker.speed to 5
+
+// let keysPressed = {}
+
+// document.addEventListener("keydown", (event) => {
+//   keysPressed[event.key] = true;
+// });
+
+// document.addEventListener("keyup", (event) => {
+//   keysPressed[event.key] = false;
+// });
+
+// function updateMovement() {
+//   if (keysPressed["d"]) {
+//     hitchhikerObj.moveX("right");
+//   }
+//   if (keysPressed["a"]) {
+//     hitchhikerObj.moveX("left");
+//   }
+//   if (keysPressed["w"]) {
+//     hitchhikerObj.moveY("up");
+//   }
+//   if (keysPressed["s"]) {
+//     hitchhikerObj.moveY("down");
+//   }
+// }
+
+// setInterval(updateMovement, 16);

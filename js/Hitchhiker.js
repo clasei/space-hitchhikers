@@ -6,7 +6,7 @@ class Hitchhiker {
   this.y = 342; // puts hitchhiker at the bottom of the game-box
   this.h = 50;
   this.w = 20;
-  this.speed = 15;
+  this.speed = 20;
 
   this.node = document.createElement("img")
   this.node.src = "../assets/hitchhiker.png"
@@ -38,4 +38,20 @@ class Hitchhiker {
     this.node.style.left = `${this.x}px`;
   }
 
+  moveY(direction) {
+    if (direction === 'down') {
+      this.y += this.speed
+      this.node.style.top = `${this.y}px`
+    } else if (direction === 'up') {
+      this.y -= this.speed
+      this.node.style.top = `${this.y}px`
+    }
+
+    if (this.y < 0) this.y = 0;
+    if (this.y + this.h > gameBoxNode.offsetHeight) {
+      this.y = gameBoxNode.offsetHeight - this.h;
+    }
+
+    this.node.style.top = `${this.y}px`;
+  }
 }

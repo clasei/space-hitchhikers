@@ -18,7 +18,7 @@ video {
 }
 
 button {
-  background-color: #4681f4 ;
+  background-color: #3075ff;
   color: white;
   width: 150px;
   font-size: 13;
@@ -31,15 +31,33 @@ button {
   border-radius: 25px;
   box-shadow: 4px 2px 2px #849685;
   cursor: pointer;
-  transition: transform 0.4s ease;
+  transition: transform 0.4s ease, background-color 0.3s ease;
 }
 
 button:hover {
   transform: scale(1.10);
+  background-color: #0045cf;
 }
 
 button:active {
   transform: scale(0.90);
+  background-color: #0045cf;
+}
+
+#play-again-btn {
+  background-color: #ee9938;
+}
+
+#play-again-btn:hover, #play-again-btn:active {
+  background-color: #d75306;
+}
+
+#play-again-btn-win {
+  background-color: #fd66f8;
+}
+
+#play-again-btn-win:hover, #play-again-btn-win:active {
+  background-color: #d101ca;
 }
 
 #game-box {
@@ -55,8 +73,17 @@ button:active {
   background-size: cover;
   
   border-radius: 25px;
-  padding-left: 25px;
+  margin: 25px;
   box-shadow: 4px 2px 2px #849685;
+}
+
+#time-display {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  font-size: 24px;
+  color: white;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 #game-screen, #end-screen, #win-screen {
