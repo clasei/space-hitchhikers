@@ -8,6 +8,7 @@ class Hitchhiker {
   this.h = 50;
   this.speed = 30;
   this.isImmune = false;
+  this.isAlive = true;
 
   this.node = document.createElement("img")
   this.node.src = "../assets/hitchhiker.png"

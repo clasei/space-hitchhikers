@@ -22,12 +22,12 @@ const gameBoxNode = document.querySelector("#game-box")
 let hitchhikerObj = null // hitchiker created and accesible
 
 let spaceshipsArray = []
-let spaceshipsFrequency = 700 // Math.random() * 2400
+let spaceshipsFrequency = 345 // Math.random() * 2400
 let spaceshipSpeed = 3
 
 let towelArray = []
-let towelFrequency = 700
-let towelSpeed = 7
+let towelFrequency = 987
+let towelSpeed = 6
 
 let gameIntervalId = null
 let spaceshipsIntervalId = null
@@ -40,6 +40,8 @@ let towelCount = 0
 let timer = 0
 let timerIntervalId = null
 let winningTime = 260 // ==> 2' 40'
+
+let totalCollisionsGameOver = 5
 
 // **********************************************************************
 // GLOBAL FUNCTIONS
@@ -136,6 +138,7 @@ function detectSpaceshipColision() {
   spaceshipsArray.forEach((eachSpaceship, index) => { // index added to remove each spaceship after collision
 
     if (eachSpaceship.isCrashed) return
+    if (hitchhikerObj.isAlive === false) return
 
     if (
       hitchhikerObj.x < eachSpaceship.x + eachSpaceship.w &&
@@ -146,7 +149,7 @@ function detectSpaceshipColision() {
       // console.log('hitchhiker crashed!')
 
       let explosionEffect = new Audio("../assets/audio/explosion_002.wav")
-      explosionEffect.volume = 0.10
+      explosionEffect.volume = 0.05
       explosionEffect.play()
 
       eachSpaceship.isCrashed = true // avoids multiple detection and stop de function in the loop
@@ -173,7 +176,7 @@ function detectSpaceshipColision() {
 
       updateLifeBar()
 
-      if (collisionCount >= 3) {
+      if (collisionCount >= totalCollisionsGameOver) {
 
       let lastExplosionEffect = new Audio("../assets/audio/last-explosion.wav")
       lastExplosionEffect.volume = 0.75
@@ -217,6 +220,7 @@ function catchTowel() {
 
     // if (eachTowel.isCatched) return
     if (hitchhikerObj.isImmune === true) return
+    if (hitchhikerObj.isAlive === false) return
     if (collisionCount === 3) return
 
 
@@ -291,7 +295,7 @@ function removeUsedTowels() {
 }
 
 function updateLifeBar() {
-  let maxCollisions = 3
+  let maxCollisions = totalCollisionsGameOver
   let lifePercentage = ((maxCollisions - collisionCount) / maxCollisions) * 100
 
   lifeBarNode.style.width = `${lifePercentage}%`
@@ -307,7 +311,7 @@ function increaseSpaceshipSpeed() {
 
     spaceshipSpeed += 0.5
     console.log(`spaceship speed increased, speed = ${spaceshipSpeed}`)
-  }, 10000)
+  }, 15000)
   
 }
 
@@ -319,6 +323,8 @@ function checkTimer() {
 
 
 function gameOver() {
+  hitchhikerObj.isAlive = false
+
   clearInterval(gameIntervalId)
   clearInterval(spaceshipsIntervalId)
   clearInterval(increaseSpeedIntervalId)
@@ -357,13 +363,13 @@ function resetGame() {
     eachSpaceship.node.remove(); // removes each spaceship's node
   });
   spaceshipsArray = []
-  spaceshipsFrequency = 700
+  spaceshipsFrequency = 345
 
   towelArray.forEach((eachTowel) => {
     eachTowel.node.remove();
   });
   towelArray = []
-  towelFrequency = 700
+  towelFrequency = 987
 
   hitchhikerObj.node.remove()
   // console.log('hitchhiker removed')
