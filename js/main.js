@@ -146,7 +146,7 @@ function detectSpaceshipColision() {
       // console.log('hitchhiker crashed!')
 
       let explosionEffect = new Audio("../assets/audio/explosion_002.wav")
-      explosionEffect.volume = 0.05
+      explosionEffect.volume = 0.10
       explosionEffect.play()
 
       eachSpaceship.isCrashed = true // avoids multiple detection and stop de function in the loop
@@ -159,8 +159,7 @@ function detectSpaceshipColision() {
         eachSpaceship.node.remove()
         spaceshipsArray.splice(index, 0) // splice instead of shift()? why 0 works?
         // spaceshipsArray.splice(spaceshipsArray.indexOf(eachSpaceship), 1)
-
-      // console.log('spaceship removed after explosion')
+        // console.log('spaceship removed after explosion')
       }, 750)
 
       // eachSpaceship.node.remove()
@@ -177,7 +176,7 @@ function detectSpaceshipColision() {
       if (collisionCount >= 3) {
 
       let lastExplosionEffect = new Audio("../assets/audio/last-explosion.wav")
-      lastExplosionEffect.volume = 0.50
+      lastExplosionEffect.volume = 0.75
       lastExplosionEffect.play()
 
         hitchhikerObj.node.src = "../assets/explosion-0.png"
@@ -229,7 +228,7 @@ function catchTowel() {
     ) {
 
       let towelEffect = new Audio("../assets/audio/catch-towel.wav")
-      towelEffect.volume = 0.70
+      towelEffect.volume = 0.50
       towelEffect.playbackRate = 0.5
       towelEffect.play()
 
@@ -250,9 +249,10 @@ function catchTowel() {
       // eachTowel.node.style.width = `${eachTowel.w}px`
       // eachTowel.node.style.height = `${eachTowel.h}px`
 
-      hitchhikerObj.w = 40
-      hitchhikerObj.h = 100
-      // hitchhikerObj.node.src = "../assets/..."
+      hitchhikerObj.node.src = "../assets/hitchhiker-power-up.png"
+
+      hitchhikerObj.w = 25
+      hitchhikerObj.h = 62
       hitchhikerObj.node.style.width = `${hitchhikerObj.w}px`
       hitchhikerObj.node.style.height = `${hitchhikerObj.h}px`
       // NEW NEW NEW NEW
@@ -269,22 +269,12 @@ function catchTowel() {
         hitchhikerObj.isImmune = false
         hitchhikerObj.w = 20
         hitchhikerObj.h = 50
-        // hitchhikerObj.node.src = "../assets/..."
+        hitchhikerObj.node.src = "../assets/hitchhiker.png"
         hitchhikerObj.node.style.width = `${hitchhikerObj.w}px`
         hitchhikerObj.node.style.height = `${hitchhikerObj.h}px`
 
-        }, 5000)
+        }, 4800)
       }
-    
-      // if (collisionCount >= 3) {
-
-        
-
-      //   setTimeout(() => {
-      //     gameOver()
-      //   }, 750)
-        
-      // }
     }
   })
 

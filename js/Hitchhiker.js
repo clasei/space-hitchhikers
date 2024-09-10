@@ -19,7 +19,6 @@ class Hitchhiker {
   this.node.style.position = "absolute" // allows to adjust from top Y and left X inside the parent element (gameBoxNode)
   this.node.style.top = `${this.y}px`
   this.node.style.left = `${this.x}px`
-
   }
 
   moveX(direction) {
