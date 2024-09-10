@@ -7,7 +7,7 @@ class Spaceship {
     this.w = 37;
     this.h = 37;
     this.speed = spaceshipSpeed;
-    // this.isCrashed = false; // propierty created to avoid multiple detection in detectSpaceshipColision()
+    this.isCrashed = false; // propierty created to avoid multiple detection in detectSpaceshipColision()
 
     this.node = document.createElement("img")
     this.node.src = "../assets/spaceship.png"
