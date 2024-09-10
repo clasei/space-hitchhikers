@@ -11,9 +11,10 @@ const winBtnNode = document.querySelector("#play-again-btn-win")
 
 // game-box
 const gameBoxNode = document.querySelector("#game-box")
-
-// timer
-const timeDisplayNode = document.querySelector("#time-display")
+  // timer
+  const timeDisplayNode = document.querySelector("#time-display")
+  // life-bar
+  const lifeBarNode = document.querySelector("#life-bar")
 
 // **********************************************************************
 // GLOBAL VARIABLES
@@ -21,11 +22,11 @@ const timeDisplayNode = document.querySelector("#time-display")
 let hitchhikerObj = null // hitchiker created and accesible
 
 let spaceshipsArray = []
-let spaceshipsFrequency = 500 // Math.random() * 2400
+let spaceshipsFrequency = 700 // Math.random() * 2400
 let spaceshipSpeed = 3
 
 let towelArray = []
-let towelFrequency = 1000
+let towelFrequency = 700
 let towelSpeed = 7
 
 let gameIntervalId = null
@@ -34,10 +35,11 @@ let towelIntervalId = null
 let increaseSpeedIntervalId = null
 
 let collisionCount = 0
+let towelCount = 0
 
 let timer = 0
 let timerIntervalId = null
-let winningTime = 24 // ==> 2' 40'
+let winningTime = 260 // ==> 2' 40'
 
 // **********************************************************************
 // GLOBAL FUNCTIONS
@@ -70,19 +72,18 @@ function startGame() {
 
   timerIntervalId = setInterval(() => {
     timer++
-    // console.log(timer)
+    console.log(timer)
     checkTimer()
     updateTimeDisplay()
-  }, 1000) // increases timer after 1"
+  }, 1000) // interval increases time after each 1" --> until it reaches 4' 20"
 
   increaseSpaceshipSpeed()
 }
 
-
 function convertTime(seconds) {
   let minutes = Math.floor(seconds / 60)
   let secondsLeft = seconds % 60
-  // .padStart() method available as alternative to display time fine...
+  // .padStart() method available as alternative to display time...
   if (minutes < 10) {
     minutes = '0' + minutes;
   }
@@ -97,7 +98,7 @@ function updateTimeDisplay() {
 }
 
 
-function gameLoop() {
+function gameLoop() { // this happens each 60"
   // console.log('game loop starting')
   spaceshipsArray.forEach((eachSpaceship) => {
     eachSpaceship.moveDown()
@@ -108,7 +109,8 @@ function gameLoop() {
   })
 
   detectSpaceshipColision()
-  removeSkippedSpaceships() // this happens each 60"
+  catchTowel()
+  removeSkippedSpaceships()
   removeUsedTowels()
 }
 
@@ -133,7 +135,7 @@ function detectSpaceshipColision() {
 
   spaceshipsArray.forEach((eachSpaceship, index) => { // index added to remove each spaceship after collision
 
-    if (eachSpaceship.isCrashed) return;
+    if (eachSpaceship.isCrashed) return
 
     if (
       hitchhikerObj.x < eachSpaceship.x + eachSpaceship.w &&
@@ -147,9 +149,8 @@ function detectSpaceshipColision() {
       explosionEffect.volume = 0.05
       explosionEffect.play()
 
-      eachSpaceship.isCrashed = true; // avoids multiple detection and stop de function in the loop
+      eachSpaceship.isCrashed = true // avoids multiple detection and stop de function in the loop
 
-      collisionCount += 1
       eachSpaceship.node.src = "../assets/explosion-0.png" // changes image to show
 
 
@@ -159,14 +160,31 @@ function detectSpaceshipColision() {
         spaceshipsArray.splice(index, 0) // splice instead of shift()? why 0 works?
         // spaceshipsArray.splice(spaceshipsArray.indexOf(eachSpaceship), 1)
 
-      console.log('spaceship removed after explosion')
+      // console.log('spaceship removed after explosion')
       }, 750)
 
       // eachSpaceship.node.remove()
       // spaceshipsArray.splice(index, 1)
       // collisionCount += 1
 
+      if (hitchhikerObj.isImmune === true) return // function stops here if hitchhiker gets immunity
+
+      collisionCount += 1
+      console.log('spaceship crashed +1')
+
+      updateLifeBar()
+
       if (collisionCount >= 3) {
+
+      let lastExplosionEffect = new Audio("../assets/audio/last-explosion.wav")
+      lastExplosionEffect.volume = 0.50
+      lastExplosionEffect.play()
+
+        hitchhikerObj.node.src = "../assets/explosion-0.png"
+        hitchhikerObj.w = 100
+        hitchhikerObj.h = 100
+        hitchhikerObj.node.style.width = `${hitchhikerObj.w}px`
+        hitchhikerObj.node.style.height = `${hitchhikerObj.h}px`
 
         // changes image size in JS
         eachSpaceship.w = 100
@@ -175,30 +193,101 @@ function detectSpaceshipColision() {
         eachSpaceship.node.style.width = `${eachSpaceship.w}px`
         eachSpaceship.node.style.height = `${eachSpaceship.h}px`
 
-        hitchhikerObj.w = 50
-        hitchhikerObj.h = 50
-        hitchhikerObj.node.src = "../assets/explosion-0.png"
-        hitchhikerObj.node.style.width = `${hitchhikerObj.w}px`
-        hitchhikerObj.node.style.height = `${hitchhikerObj.h}px`
-
         setTimeout(() => {
+          console.log('GAME OVER')
           gameOver()
         }, 750)
-        
       }
     }
   })
 }
-
 
 function removeSkippedSpaceships() {
   spaceshipsArray.forEach((eachSpaceship, index) => { // index used to remove each element of the array
     if (eachSpaceship.y > gameBoxNode.offsetHeight) {
       eachSpaceship.node.remove() // removes spaceship from the DOM
       spaceshipsArray.splice(index, 1) // removes spaceship from the array
-      console.log('spaceship removed')
+      // console.log('spaceship removed')
     }
   })
+}
+
+function catchTowel() {
+
+  towelArray.forEach((eachTowel, index) => {
+
+    // if (eachTowel.isCatched) return
+    if (hitchhikerObj.isImmune === true) return
+    if (collisionCount === 3) return
+
+
+    if (
+      hitchhikerObj.x < eachTowel.x + eachTowel.w &&
+      hitchhikerObj.x + hitchhikerObj.w > eachTowel.x &&
+      hitchhikerObj.y < eachTowel.y + eachTowel.h &&
+      hitchhikerObj.y + hitchhikerObj.h > eachTowel.y
+    ) {
+
+      let towelEffect = new Audio("../assets/audio/catch-towel.wav")
+      towelEffect.volume = 0.70
+      towelEffect.playbackRate = 0.5
+      towelEffect.play()
+
+      hitchhikerObj.isImmune = true
+      console.log('immunity activated!')
+
+      eachTowel.isCatched = true // avoids multiple detection
+      towelCount += 1
+      console.log('towel catched')
+
+      // eachTowel.node.src = "../assets/..." 
+
+      // // NEW NEW NEW NEW
+      // // changes image size in JS
+      // eachTowel.w = 100
+      // eachTowel.h = 100
+      // // changes image size in DOM
+      // eachTowel.node.style.width = `${eachTowel.w}px`
+      // eachTowel.node.style.height = `${eachTowel.h}px`
+
+      hitchhikerObj.w = 40
+      hitchhikerObj.h = 100
+      // hitchhikerObj.node.src = "../assets/..."
+      hitchhikerObj.node.style.width = `${hitchhikerObj.w}px`
+      hitchhikerObj.node.style.height = `${hitchhikerObj.h}px`
+      // NEW NEW NEW NEW
+
+      if (towelCount++) {
+        // // removes element from the screen after crash -->
+        setTimeout(() => {
+          eachTowel.node.remove()
+          towelArray.splice(index, 0) // splice instead of shift()? why 0 works?
+          // towelArray.splice(towelArray.indexOf(eachTowel), 1)
+
+        // console.log('towel removed after catch!')
+
+        hitchhikerObj.isImmune = false
+        hitchhikerObj.w = 20
+        hitchhikerObj.h = 50
+        // hitchhikerObj.node.src = "../assets/..."
+        hitchhikerObj.node.style.width = `${hitchhikerObj.w}px`
+        hitchhikerObj.node.style.height = `${hitchhikerObj.h}px`
+
+        }, 5000)
+      }
+    
+      // if (collisionCount >= 3) {
+
+        
+
+      //   setTimeout(() => {
+      //     gameOver()
+      //   }, 750)
+        
+      // }
+    }
+  })
+
 }
 
 function removeUsedTowels() {
@@ -206,9 +295,17 @@ function removeUsedTowels() {
     if (eachTowel.y > gameBoxNode.offsetHeight) {
       eachTowel.node.remove() // removes towel from the DOM
       towelArray.splice(index, 1) // removes towel from the array
-      console.log('towel removed')
+      // console.log('towel removed')
     }
   })
+}
+
+function updateLifeBar() {
+  let maxCollisions = 3
+  let lifePercentage = ((maxCollisions - collisionCount) / maxCollisions) * 100
+
+  lifeBarNode.style.width = `${lifePercentage}%`
+
 }
 
 function increaseSpaceshipSpeed() {
@@ -270,13 +367,13 @@ function resetGame() {
     eachSpaceship.node.remove(); // removes each spaceship's node
   });
   spaceshipsArray = []
-  spaceshipsFrequency = 500
+  spaceshipsFrequency = 700
 
   towelArray.forEach((eachTowel) => {
     eachTowel.node.remove();
   });
   towelArray = []
-  towelFrequency = 1000
+  towelFrequency = 700
 
   hitchhikerObj.node.remove()
   // console.log('hitchhiker removed')
@@ -288,6 +385,7 @@ function resetGame() {
   // increaseSpeedIntervalId = null // executed in increaseSpaceshipSpeed()
 
   collisionCount = 0
+  updateLifeBar()
 
   timer = 0
   // updates timer to 00:00
@@ -329,7 +427,7 @@ document.addEventListener("keydown", (event) => {
 
 // let keysPressed = {}
 
-// document.addEventListener("keydown", (event) => {
+// document.addEventListener("keydown", (event) => { // add keys as object player properties + add movement to loop
 //   keysPressed[event.key] = true;
 // });
 

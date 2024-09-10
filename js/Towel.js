@@ -7,7 +7,7 @@ class Towel {
     this.w = 24;
     this.h = 24;
     this.speed = towelSpeed;
-    // this.isCrashed = false; // propierty created to avoid multiple detection in detectSpaceshipColision()
+    this.isCatched = false; // propierty created to avoid multiple detection in detectSpaceshipColision()
 
     this.node = document.createElement("img")
     this.node.src = "../assets/towel.png"

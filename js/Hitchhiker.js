@@ -4,9 +4,10 @@ class Hitchhiker {
 
   this.x = 300;
   this.y = 342; // puts hitchhiker at the bottom of the game-box
-  this.h = 50;
   this.w = 20;
-  this.speed = 20;
+  this.h = 50;
+  this.speed = 30;
+  this.isImmune = false;
 
   this.node = document.createElement("img")
   this.node.src = "../assets/hitchhiker.png"
