@@ -225,7 +225,7 @@ function catchTowel() {
     // if (eachTowel.isCatched) return
     if (hitchhikerObj.isImmune === true) return
     if (hitchhikerObj.isAlive === false) return
-    if (collisionCount >= 3) return
+    // if (collisionCount >= 3) return
 
 
     if (
