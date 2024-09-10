@@ -21,7 +21,8 @@ const timeDisplayNode = document.querySelector("#time-display")
 let hitchhikerObj = null // hitchiker created and accesible
 
 let spaceshipsArray = []
-let spaceshipsFrequency = 700
+let spaceshipsFrequency = 700 // Math.random() * 2400
+let spaceshipSpeed = 3
 
 let gameIntervalId = null
 let spaceshipsIntervalId = null
@@ -98,9 +99,9 @@ function gameLoop() {
 function moveSpaceship() {
   let randomPositionX = Math.random() * (gameBoxNode.offsetWidth - 37)
 
-  let newSpaceship = new Spaceship(randomPositionX)
+  let newSpaceship = new Spaceship(randomPositionX, spaceshipSpeed)
   spaceshipsArray.push(newSpaceship)
-  // console.log(spaceshipsArray)
+  console.log('spaceship created')
 
 }
 
@@ -119,7 +120,7 @@ function detectSpaceshipColision() {
       console.log('hitchhiker crashed!')
 
       let explosionEffect = new Audio("../assets/audio/explosion_002.wav")
-      explosionEffect.volume = 0.25
+      explosionEffect.volume = 0.10
       explosionEffect.play()
 
       eachSpaceship.isCrashed = true;
@@ -229,16 +230,16 @@ winBtnNode.addEventListener("click", resetGame)
 document.addEventListener("keydown", (event) => {
   // console.log('pressing key')
 
-  if (event.key === "ArrowRight") {
+  if (event.key === "d") {
     hitchhikerObj.moveX("right")
     // console.log('moving right')
-  } else if (event.key === "ArrowLeft") {
+  } else if (event.key === "a") {
     hitchhikerObj.moveX("left")
     // console.log('moving left')
-  } else if (event.key === "ArrowDown") {
+  } else if (event.key === "s") {
     hitchhikerObj.moveY("down")
     // console.log('moving down')
-  } else if (event.key === "ArrowUp") {
+  } else if (event.key === "w") {
     hitchhikerObj.moveY("up")
     // console.log('moving up')
   }

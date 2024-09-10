@@ -1,12 +1,12 @@
 class Spaceship {
 
-  constructor(positionX) {
+  constructor(positionX, spaceshipSpeed) {
 
     this.x = positionX;
     this.y = -10; // forces the spaceships to start outside the canvas
     this.w = 37;
     this.h = 37;
-    this.speed = 3;
+    this.speed = spaceshipSpeed;
     // this.isCrashed = false; // propierty created to avoid multiple detection in detectSpaceshipColision()
 
     this.node = document.createElement("img")
