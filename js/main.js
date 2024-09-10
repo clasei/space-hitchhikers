@@ -176,11 +176,15 @@ function detectSpaceshipColision() {
 
       updateLifeBar()
 
+      if (hitchhikerObj.isAlive === false) return // tries to avoid duplicate last explosion
+
+
       if (collisionCount >= totalCollisionsGameOver) {
 
-      let lastExplosionEffect = new Audio("../assets/audio/last-explosion.wav")
-      lastExplosionEffect.volume = 0.75
-      lastExplosionEffect.play()
+        let lastExplosionEffect = new Audio("../assets/audio/last-explosion.wav")
+        lastExplosionEffect.volume = 0.75
+        lastExplosionEffect.play()
+        
 
         hitchhikerObj.node.src = "../assets/explosion-0.png"
         hitchhikerObj.w = 100
@@ -198,7 +202,7 @@ function detectSpaceshipColision() {
         setTimeout(() => {
           console.log('GAME OVER')
           gameOver()
-        }, 750)
+        }, 700)
       }
     }
   })
@@ -221,7 +225,7 @@ function catchTowel() {
     // if (eachTowel.isCatched) return
     if (hitchhikerObj.isImmune === true) return
     if (hitchhikerObj.isAlive === false) return
-    if (collisionCount === 3) return
+    if (collisionCount >= 3) return
 
 
     if (
@@ -255,8 +259,8 @@ function catchTowel() {
 
       hitchhikerObj.node.src = "../assets/hitchhiker-power-up.png"
 
-      hitchhikerObj.w = 25
-      hitchhikerObj.h = 62
+      hitchhikerObj.w = 26
+      hitchhikerObj.h = 64
       hitchhikerObj.node.style.width = `${hitchhikerObj.w}px`
       hitchhikerObj.node.style.height = `${hitchhikerObj.h}px`
       // NEW NEW NEW NEW
@@ -277,7 +281,7 @@ function catchTowel() {
         hitchhikerObj.node.style.width = `${hitchhikerObj.w}px`
         hitchhikerObj.node.style.height = `${hitchhikerObj.h}px`
 
-        }, 4800)
+        }, 4750)
       }
     }
   })
