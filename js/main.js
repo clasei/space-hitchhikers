@@ -37,7 +37,7 @@ let collisionCount = 0
 
 let timer = 0
 let timerIntervalId = null
-let winningTime = 260 // ==> 2' 40'
+let winningTime = 24 // ==> 2' 40'
 
 // **********************************************************************
 // GLOBAL FUNCTIONS
@@ -109,6 +109,7 @@ function gameLoop() {
 
   detectSpaceshipColision()
   removeSkippedSpaceships() // this happens each 60"
+  removeUsedTowels()
 }
 
 
@@ -158,17 +159,31 @@ function detectSpaceshipColision() {
         spaceshipsArray.splice(index, 0) // splice instead of shift()? why 0 works?
         // spaceshipsArray.splice(spaceshipsArray.indexOf(eachSpaceship), 1)
 
-      // // console.log('spaceship removed after explosion')
-      }, 500)
+      console.log('spaceship removed after explosion')
+      }, 750)
 
       // eachSpaceship.node.remove()
       // spaceshipsArray.splice(index, 1)
       // collisionCount += 1
 
-      if (collisionCount >= 5) {
+      if (collisionCount >= 3) {
+
+        // changes image size in JS
+        eachSpaceship.w = 100
+        eachSpaceship.h = 100
+        // changes image size in DOM
+        eachSpaceship.node.style.width = `${eachSpaceship.w}px`
+        eachSpaceship.node.style.height = `${eachSpaceship.h}px`
+
+        hitchhikerObj.w = 50
+        hitchhikerObj.h = 50
+        hitchhikerObj.node.src = "../assets/explosion-0.png"
+        hitchhikerObj.node.style.width = `${hitchhikerObj.w}px`
+        hitchhikerObj.node.style.height = `${hitchhikerObj.h}px`
+
         setTimeout(() => {
           gameOver()
-        }, 2500)
+        }, 750)
         
       }
     }
@@ -181,7 +196,7 @@ function removeSkippedSpaceships() {
     if (eachSpaceship.y > gameBoxNode.offsetHeight) {
       eachSpaceship.node.remove() // removes spaceship from the DOM
       spaceshipsArray.splice(index, 1) // removes spaceship from the array
-      // console.log('spaceship removed')
+      console.log('spaceship removed')
     }
   })
 }
@@ -252,7 +267,7 @@ function resetGame() {
   winScreenNode.style.display = "none"
 
   spaceshipsArray.forEach((eachSpaceship) => {
-    eachSpaceship.node.remove(); // Ensure each spaceship's node is removed
+    eachSpaceship.node.remove(); // removes each spaceship's node
   });
   spaceshipsArray = []
   spaceshipsFrequency = 500
@@ -270,6 +285,7 @@ function resetGame() {
   gameIntervalId = null
   spaceshipsIntervalId = null
   towelIntervalId = null
+  // increaseSpeedIntervalId = null // executed in increaseSpaceshipSpeed()
 
   collisionCount = 0
 
