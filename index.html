@@ -11,46 +11,61 @@
 
   <!-- START SCREEN -->
   <div id="start-screen" class="container">
-    <img src="./assets/sh-start-header-h1.png" width="500" alt="game-header">
-    <video src="./assets/video/video-game-loop-get-ready.mp4" alt="get-ready" autoplay loop muted></video>
-    <!-- <audio id="game-music" src="./assets/audio/start-end-loop.wav" autoplay loop></audio> -->
-    <button id="start-btn">PLAY</button>
+    <!-- <img src="./assets/sh-start-header-h1.png" width="500" alt="game-header"> -->
+
+     <h1>SpaceHitchhikers</h1>
+
+    <div>
+      <video src="./assets/video/video-game-loop-get-ready.mp4" alt="get-ready" autoplay loop muted></video>
+    </div>
+
+    <button id="start-btn" class="button">PLAY</button>
+
+    <div id="info-container">
+      
+    </div>
   </div>
 
   <!-- GAME SCREEN -->
   <div id="game-screen" class="container">
-    <div id="game-box">
-      <div id="time-display">00:00</div>
+    <h1>SpaceHitchhikers</h1>
+    <div class="game-box-wrapper">
+        <div id="game-box">
 
-      <div id="counters-container">
-        <div id="crashes-counter">
-          <img id="spaceship-icon" src="./assets/spaceship.png" alt="spaceship-icon">
-          <span id="total-collisions">0</span>
-        </div>
-        <div id="towel-counter">
-          <img id="towel-icon" src="./assets/towel.png" alt="towel-icon">
-          <span id="total-towels">0</span>
-        </div>
-      </div>
+          <div id="time-display">00:00</div>
 
-      <div id="life-bar-container">
-        <div id="life-bar"></div>
+          <div id="counters-container">
+            <div id="crashes-counter">
+              <img id="spaceship-icon" src="./assets/spaceship.png" alt="spaceship-icon">
+              <span id="total-collisions">0</span>
+            </div>
+            <div id="towel-counter">
+              <img id="towel-icon" src="./assets/towel.png" alt="towel-icon">
+              <span id="total-towels">0</span>
+            </div>
+          </div>
+          <div id="life-bar-container">
+            <div id="life-bar"></div>
+          </div>
+          
       </div>
     </div>
   </div>
 
   <!-- END SCREEN -->
   <div id="end-screen" class="container">
-    <img src="./assets/sh-start-header-h1.png" width="500" alt="game-header">
+    <h1>SpaceHitchhikers</h1>
+    <!-- <img src="./assets/sh-start-header-h1.png" width="500" alt="game-header"> -->
     <video src="./assets/video/video-game-loop-game-over.mp4" alt="game-over" autoplay loop muted></video>
-    <button id="play-again-btn">PLAY AGAIN</button>
+    <button id="play-again-btn" class="button">PLAY AGAIN</button>
   </div>
 
   <!-- WIN SCREEN -->
   <div id="win-screen" class="container">
-    <img src="./assets/sh-start-header-h1.png" width="500" alt="game-header">
+    <h1>SpaceHitchhikers</h1>
+    <!-- <img src="./assets/sh-start-header-h1.png" width="500" alt="game-header"> -->
     <video src="./assets/video/video-game-loop-you-win.mp4" alt="you-win" autoplay loop muted></video>
-    <button id="play-again-btn-win">PLAY AGAIN</button>
+    <button id="play-again-btn-win" class="button">PLAY AGAIN</button>
   </div>
 
   <script src="./js/main.js"></script>
