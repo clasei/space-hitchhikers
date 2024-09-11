@@ -176,8 +176,9 @@ function detectSpaceshipColision() {
 
       hitchhikerDamaged()
 
-
       if (damageCount >= totalCollisionsGameOver) {
+
+        if (hitchhikerObj.isAlive === false) return
 
         let lastExplosionEffect = new Audio("./assets/audio/last-explosion.wav")
         lastExplosionEffect.volume = 0.50
@@ -197,13 +198,15 @@ function detectSpaceshipColision() {
         eachSpaceship.node.style.width = `${eachSpaceship.w}px`
         eachSpaceship.node.style.height = `${eachSpaceship.h}px`
 
+        hitchhikerObj.isAlive = false
+
         // if (hitchhikerObj.isAlive === false) return // avoids duplicated last explosion
 
         setTimeout(() => {
-          if (hitchhikerObj.isAlive === false) return // avoids duplicated last explosion
+          // if (hitchhikerObj.isAlive === false) return // avoids duplicated last explosion
           console.log('GAME OVER')
           gameOver()
-        }, 700)
+        }, 1000)
       }
     }
   })
@@ -215,7 +218,6 @@ function hitchhikerDamaged() {
   damageCount++
   console.log(`total damage: ${damageCount}`)
   updateLifeBar()
-
 }
 
 
@@ -356,7 +358,6 @@ function clearAllIntervals() {
 }
 
 function gameOver() {
-  hitchhikerObj.isAlive = false
 
   clearAllIntervals()
 
