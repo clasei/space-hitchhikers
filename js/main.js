@@ -158,11 +158,8 @@ function detectSpaceshipColision() {
       let explosionEffect = new Audio("./assets/audio/explosion_002.wav")
       explosionEffect.volume = 0.05
       explosionEffect.play()
-
-      eachSpaceship.isCrashed = true // avoids multiple detection and stops de function in the loop
-
       eachSpaceship.node.src = "./assets/explosion-0.png" // changes image to show
-
+      eachSpaceship.isCrashed = true // avoids multiple detection and stops de function in the loop
 
       // // removes element from the screen after crash -->
       setTimeout(() => {
