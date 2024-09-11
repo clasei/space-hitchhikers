@@ -82,24 +82,6 @@ function startGame() {
   increaseSpaceshipSpeed()
 }
 
-function convertTime(seconds) {
-  let minutes = Math.floor(seconds / 60)
-  let secondsLeft = seconds % 60
-  // .padStart() method available as alternative to display time...
-  if (minutes < 10) {
-    minutes = '0' + minutes;
-  }
-  if (secondsLeft < 10) {
-    secondsLeft = '0' + secondsLeft;
-  }
-  return `${minutes}:${secondsLeft}`;
-}
-
-function updateTimeDisplay() {
-  timeDisplayNode.innerHTML = convertTime(timer)
-}
-
-
 function gameLoop() { // this happens each 60"
   // console.log('game loop starting')
   spaceshipsArray.forEach((eachSpaceship) => {
@@ -116,6 +98,22 @@ function gameLoop() { // this happens each 60"
   removeUsedTowels()
 }
 
+function convertTime(seconds) {
+  let minutes = Math.floor(seconds / 60)
+  let secondsLeft = seconds % 60
+  // .padStart() method available as alternative to display time...
+  if (minutes < 10) {
+    minutes = '0' + minutes;
+  }
+  if (secondsLeft < 10) {
+    secondsLeft = '0' + secondsLeft;
+  }
+  return `${minutes}:${secondsLeft}`;
+}
+
+function updateTimeDisplay() {
+  timeDisplayNode.innerHTML = convertTime(timer)
+}
 
 function moveSpaceship() { // moves spaceship randomly in X axis
   let randomPositionX = Math.random() * (gameBoxNode.offsetWidth - 37)
@@ -401,7 +399,7 @@ againBtnNode.addEventListener("click", resetGame)
 
 winBtnNode.addEventListener("click", resetGame)
 
-document.addEventListener("keydown", (event) => {
+window.addEventListener("keydown", (event) => {
   // console.log('pressing key')
 
   if (event.key === "d") {
