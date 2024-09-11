@@ -22,11 +22,11 @@ const gameBoxNode = document.querySelector("#game-box")
 let hitchhikerObj = null // hitchiker created and accesible
 
 let spaceshipsArray = []
-let spaceshipsFrequency = 345 // Math.random() * 2400
+let spaceshipsFrequency = 500 // Math.random() * 2400
 let spaceshipSpeed = 3
 
 let towelArray = []
-let towelFrequency = 987
+let towelFrequency = 400
 let towelSpeed = 6
 
 let gameIntervalId = null
@@ -74,7 +74,7 @@ function startGame() {
 
   timerIntervalId = setInterval(() => {
     timer++
-    console.log(timer)
+    // console.log(timer)
     checkTimer()
     updateTimeDisplay()
   }, 1000) // interval increases time after each 1" --> until it reaches 4' 20"
@@ -151,7 +151,7 @@ function detectSpaceshipColision() {
       explosionEffect.volume = 0.05
       explosionEffect.play()
 
-      eachSpaceship.isCrashed = true // avoids multiple detection and stop de function in the loop
+      eachSpaceship.isCrashed = true // avoids multiple detection and stops de function in the loop
 
       eachSpaceship.node.src = "./assets/explosion-0.png" // changes image to show
 
@@ -168,7 +168,7 @@ function detectSpaceshipColision() {
       // spaceshipsArray.splice(index, 1)
       // collisionCount += 1
 
-      if (hitchhikerObj.isImmune === true) return // function stops here if hitchhiker gets immunity
+      if (hitchhikerObj.isImmune) return // function stops here if hitchhiker gets immunity
 
       collisionCount += 1
       console.log('spaceship crashed +1')
@@ -181,7 +181,7 @@ function detectSpaceshipColision() {
       if (collisionCount >= totalCollisionsGameOver) {
 
         let lastExplosionEffect = new Audio("./assets/audio/last-explosion.wav")
-        lastExplosionEffect.volume = 0.75
+        lastExplosionEffect.volume = 0.50
         lastExplosionEffect.play()
         
 
@@ -209,6 +209,9 @@ function detectSpaceshipColision() {
 
 function removeSkippedSpaceships() {
   spaceshipsArray.forEach((eachSpaceship, index) => { // index used to remove each element of the array
+
+    // if (eachSpaceship.isCrashed) return 
+
     if (eachSpaceship.y > gameBoxNode.offsetHeight) {
       eachSpaceship.node.remove() // removes spaceship from the DOM
       spaceshipsArray.splice(index, 1) // removes spaceship from the array
@@ -222,9 +225,9 @@ function catchTowel() {
   towelArray.forEach((eachTowel, index) => {
 
     // if (eachTowel.isCatched) return
-    if (hitchhikerObj.isImmune === true) return
+    // if (hitchhikerObj.isImmune) return
     if (hitchhikerObj.isAlive === false) return
-    if (collisionCount >= 3) return
+    if (collisionCount >= totalCollisionsGameOver) return
 
 
     if (
@@ -235,26 +238,32 @@ function catchTowel() {
     ) {
 
       let towelEffect = new Audio("./assets/audio/catch-towel.wav")
-      towelEffect.volume = 0.50
-      towelEffect.playbackRate = 0.5
+      towelEffect.volume = 0.05
       towelEffect.play()
 
-      hitchhikerObj.isImmune = true
-      console.log('immunity activated!')
+      // NEW NEW NEW NEW
+      // changes image size in JS
+      eachTowel.w = 50
+      eachTowel.h = 50
+      // changes image size in DOM
+      eachTowel.node.style.width = `${eachTowel.w}px`
+      eachTowel.node.style.height = `${eachTowel.h}px`
+      eachTowel.node.src = "./assets/power-up.png" 
+
+      if (eachTowel.isCatched) return
 
       eachTowel.isCatched = true // avoids multiple detection
       towelCount += 1
       console.log('towel catched')
 
-      // eachTowel.node.src = "./assets/..." 
+      if (hitchhikerObj.isImmune) return
 
-      // // NEW NEW NEW NEW
-      // // changes image size in JS
-      // eachTowel.w = 100
-      // eachTowel.h = 100
-      // // changes image size in DOM
-      // eachTowel.node.style.width = `${eachTowel.w}px`
-      // eachTowel.node.style.height = `${eachTowel.h}px`
+      hitchhikerObj.isImmune = true
+      console.log('immunity activated!')
+      let immunityEffect = new Audio("./assets/audio/immunity-effect.wav")
+      immunityEffect.volume = 0.05
+      immunityEffect.playbackRate = 0.5
+      immunityEffect.play()
 
       hitchhikerObj.node.src = "./assets/hitchhiker-power-up.png"
 
@@ -267,28 +276,32 @@ function catchTowel() {
       if (towelCount++) {
         // // removes element from the screen after crash -->
         setTimeout(() => {
-          eachTowel.node.remove()
-          towelArray.splice(index, 0) // splice instead of shift()? why 0 works?
+
+          // eachTowel.node.remove()
+          // towelArray.splice(index, 0) // splice instead of shift()? why 0 works?
           // towelArray.splice(towelArray.indexOf(eachTowel), 1)
 
-        // console.log('towel removed after catch!')
+          // console.log('towel removed after catch!')
 
-        hitchhikerObj.isImmune = false
-        hitchhikerObj.w = 20
-        hitchhikerObj.h = 50
-        hitchhikerObj.node.src = "./assets/hitchhiker.png"
-        hitchhikerObj.node.style.width = `${hitchhikerObj.w}px`
-        hitchhikerObj.node.style.height = `${hitchhikerObj.h}px`
+          hitchhikerObj.isImmune = false
+          hitchhikerObj.w = 20
+          hitchhikerObj.h = 50
+          hitchhikerObj.node.src = "./assets/hitchhiker.png"
+          hitchhikerObj.node.style.width = `${hitchhikerObj.w}px`
+          hitchhikerObj.node.style.height = `${hitchhikerObj.h}px`
 
         }, 4750)
       }
     }
   })
-
 }
 
 function removeUsedTowels() {
+
   towelArray.forEach((eachTowel, index) => { // index used to remove each element of the array
+
+    // if (eachTowel.isCatched) return
+
     if (eachTowel.y > gameBoxNode.offsetHeight) {
       eachTowel.node.remove() // removes towel from the DOM
       towelArray.splice(index, 1) // removes towel from the array
@@ -362,13 +375,13 @@ function resetGame() {
     eachSpaceship.node.remove(); // removes each spaceship's node
   });
   spaceshipsArray = []
-  spaceshipsFrequency = 345
+  spaceshipsFrequency = 500
 
   towelArray.forEach((eachTowel) => {
     eachTowel.node.remove();
   });
   towelArray = []
-  towelFrequency = 987
+  towelFrequency = 400
 
   hitchhikerObj.node.remove()
   // console.log('hitchhiker removed')

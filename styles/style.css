@@ -81,9 +81,35 @@ button:active {
   position: absolute;
   top: 10px;
   left: 15px;
-  font-size: 30px;
+  font-size: 27px;
   font-weight: 600;
   color: white;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+#towel-counter {
+  position: absolute;
+  top: 10px;
+  right: 230px; /* position depends on life-bar-container width */
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #5e5e5e;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+#towel-icon {
+  width: 25px;
+  height: 25px;
+  margin-right: 5px;
+}
+
+#total-towels {
+  font-size: 24px;
+  font-weight: 600;
+  color: #fce149;
   font-family: 'Courier New', Courier, monospace;
 }
 
@@ -94,7 +120,7 @@ button:active {
   width: 200px;
   height: 20px;
   background-color: #b9b9b9;
-  border: 2px solid #909090;
+  border: 2px solid #5e5e5e;
   border-radius: 10px;
 }
 
