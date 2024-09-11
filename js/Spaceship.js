@@ -10,7 +10,7 @@ class Spaceship {
     this.isCrashed = false; // propierty created to avoid multiple detection in detectSpaceshipColision()
 
     this.node = document.createElement("img")
-    this.node.src = "../assets/spaceship.png"
+    this.node.src = "./assets/spaceship.png"
 
     gameBoxNode.append(this.node)
 

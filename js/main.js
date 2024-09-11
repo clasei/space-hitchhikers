@@ -148,13 +148,13 @@ function detectSpaceshipColision() {
     ) {
       // console.log('hitchhiker crashed!')
 
-      let explosionEffect = new Audio("../assets/audio/explosion_002.wav")
+      let explosionEffect = new Audio("./assets/audio/explosion_002.wav")
       explosionEffect.volume = 0.05
       explosionEffect.play()
 
       eachSpaceship.isCrashed = true // avoids multiple detection and stop de function in the loop
 
-      eachSpaceship.node.src = "../assets/explosion-0.png" // changes image to show
+      eachSpaceship.node.src = "./assets/explosion-0.png" // changes image to show
 
 
       // // removes element from the screen after crash -->
@@ -181,12 +181,12 @@ function detectSpaceshipColision() {
 
       if (collisionCount >= totalCollisionsGameOver) {
 
-        let lastExplosionEffect = new Audio("../assets/audio/last-explosion.wav")
+        let lastExplosionEffect = new Audio("./assets/audio/last-explosion.wav")
         lastExplosionEffect.volume = 0.75
         lastExplosionEffect.play()
         
 
-        hitchhikerObj.node.src = "../assets/explosion-0.png"
+        hitchhikerObj.node.src = "./assets/explosion-0.png"
         hitchhikerObj.w = 100
         hitchhikerObj.h = 100
         hitchhikerObj.node.style.width = `${hitchhikerObj.w}px`
@@ -225,7 +225,7 @@ function catchTowel() {
     // if (eachTowel.isCatched) return
     if (hitchhikerObj.isImmune === true) return
     if (hitchhikerObj.isAlive === false) return
-    // if (collisionCount >= 3) return
+    if (collisionCount >= 3) return
 
 
     if (
@@ -235,7 +235,7 @@ function catchTowel() {
       hitchhikerObj.y + hitchhikerObj.h > eachTowel.y
     ) {
 
-      let towelEffect = new Audio("../assets/audio/catch-towel.wav")
+      let towelEffect = new Audio("./assets/audio/catch-towel.wav")
       towelEffect.volume = 0.50
       towelEffect.playbackRate = 0.5
       towelEffect.play()
@@ -247,7 +247,7 @@ function catchTowel() {
       towelCount += 1
       console.log('towel catched')
 
-      // eachTowel.node.src = "../assets/..." 
+      // eachTowel.node.src = "./assets/..." 
 
       // // NEW NEW NEW NEW
       // // changes image size in JS
@@ -257,7 +257,7 @@ function catchTowel() {
       // eachTowel.node.style.width = `${eachTowel.w}px`
       // eachTowel.node.style.height = `${eachTowel.h}px`
 
-      hitchhikerObj.node.src = "../assets/hitchhiker-power-up.png"
+      hitchhikerObj.node.src = "./assets/hitchhiker-power-up.png"
 
       hitchhikerObj.w = 26
       hitchhikerObj.h = 64
@@ -277,7 +277,7 @@ function catchTowel() {
         hitchhikerObj.isImmune = false
         hitchhikerObj.w = 20
         hitchhikerObj.h = 50
-        hitchhikerObj.node.src = "../assets/hitchhiker.png"
+        hitchhikerObj.node.src = "./assets/hitchhiker.png"
         hitchhikerObj.node.style.width = `${hitchhikerObj.w}px`
         hitchhikerObj.node.style.height = `${hitchhikerObj.h}px`
 
