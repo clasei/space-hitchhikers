@@ -92,6 +92,7 @@ function gameLoop() { // this happens each 60"
     eachTowel.flyTowel()
   })
 
+  hitchhikerObj.hitchhikerMovement()
   detectSpaceshipColision()
   catchTowel()
   removeSkippedSpaceships()
@@ -400,19 +401,27 @@ againBtnNode.addEventListener("click", resetGame)
 winBtnNode.addEventListener("click", resetGame)
 
 window.addEventListener("keydown", (event) => {
-  // console.log('pressing key')
 
-  if (event.key === "d") {
-    hitchhikerObj.moveX("right")
-    // console.log('moving right')
-  } else if (event.key === "a") {
-    hitchhikerObj.moveX("left")
-    // console.log('moving left')
+  if (event.key === "w") {
+    hitchhikerObj.keys.up = true;
   } else if (event.key === "s") {
-    hitchhikerObj.moveY("down")
-    // console.log('moving down')
-  } else if (event.key === "w") {
-    hitchhikerObj.moveY("up")
-    // console.log('moving up')
+    hitchhikerObj.keys.down = true;
+  } else if (event.key === "d") {
+    hitchhikerObj.keys.right = true;
+  } else if (event.key === "a") {
+    hitchhikerObj.keys.left = true;
+  }
+})
+  
+window.addEventListener("keyup", (event) => {
+
+  if (event.key === "w") {
+    hitchhikerObj.keys.up = false;
+  } else if (event.key === "s") {
+    hitchhikerObj.keys.down = false;
+  } else if (event.key === "a") {
+    hitchhikerObj.keys.left = false;
+  } else if (event.key === "d") {
+    hitchhikerObj.keys.right = false;
   }
 })
