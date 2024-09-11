@@ -325,38 +325,34 @@ function checkTimer() {
   }
 }
 
-
-function gameOver() {
-  hitchhikerObj.isAlive = false
-
+function clearAllIntervals() {
+  
   clearInterval(gameIntervalId)
   clearInterval(spaceshipsIntervalId)
   clearInterval(increaseSpeedIntervalId)
   clearInterval(towelIntervalId)
   clearInterval(timerIntervalId)
+}
+
+function gameOver() {
+  hitchhikerObj.isAlive = false
+
+  clearAllIntervals()
 
   gameScreenNode.style.display = "none"
   endScreenNode.style.display = "flex"
 }
 
 function winGame() {
-  clearInterval(gameIntervalId)
-  clearInterval(spaceshipsIntervalId)
-  clearInterval(increaseSpeedIntervalId)
-  clearInterval(towelIntervalId)
-  clearInterval(timerIntervalId)
+  clearAllIntervals()
 
   gameScreenNode.style.display = "none"
   winScreenNode.style.display = "flex"
 }
 
-
 function resetGame() {
-  clearInterval(gameIntervalId)
-  clearInterval(spaceshipsIntervalId)
-  clearInterval(increaseSpeedIntervalId)
-  clearInterval(towelIntervalId)
-  clearInterval(timerIntervalId)
+
+  clearAllIntervals()
 
   startScreenNode.style.display = "flex"
   gameScreenNode.style.display = "none"
@@ -422,32 +418,3 @@ document.addEventListener("keydown", (event) => {
     // console.log('moving up')
   }
 })
-
-// SMOOTH MOVEMENT ALTERNATIVE OPTION -> LOWER hitchhiker.speed to 5
-
-// let keysPressed = {}
-
-// document.addEventListener("keydown", (event) => { // add keys as object player properties + add movement to loop
-//   keysPressed[event.key] = true;
-// });
-
-// document.addEventListener("keyup", (event) => {
-//   keysPressed[event.key] = false;
-// });
-
-// function updateMovement() {
-//   if (keysPressed["d"]) {
-//     hitchhikerObj.moveX("right");
-//   }
-//   if (keysPressed["a"]) {
-//     hitchhikerObj.moveX("left");
-//   }
-//   if (keysPressed["w"]) {
-//     hitchhikerObj.moveY("up");
-//   }
-//   if (keysPressed["s"]) {
-//     hitchhikerObj.moveY("down");
-//   }
-// }
-
-// setInterval(updateMovement, 16);
