@@ -82,6 +82,23 @@ function startGame() {
   increaseSpaceshipSpeed()
 }
 
+function gameLoop() { // this happens each 60"
+  // console.log('game loop starting')
+  spaceshipsArray.forEach((eachSpaceship) => {
+    eachSpaceship.moveDown()
+  })
+
+  towelArray.forEach((eachTowel) => {
+    eachTowel.flyTowel()
+  })
+
+  hitchhikerObj.hitchhikerMovement()
+  detectSpaceshipColision()
+  catchTowel()
+  removeSkippedSpaceships()
+  removeUsedTowels()
+}
+
 function convertTime(seconds) {
   let minutes = Math.floor(seconds / 60)
   let secondsLeft = seconds % 60
@@ -98,24 +115,6 @@ function convertTime(seconds) {
 function updateTimeDisplay() {
   timeDisplayNode.innerHTML = convertTime(timer)
 }
-
-
-function gameLoop() { // this happens each 60"
-  // console.log('game loop starting')
-  spaceshipsArray.forEach((eachSpaceship) => {
-    eachSpaceship.moveDown()
-  })
-
-  towelArray.forEach((eachTowel) => {
-    eachTowel.flyTowel()
-  })
-
-  detectSpaceshipColision()
-  catchTowel()
-  removeSkippedSpaceships()
-  removeUsedTowels()
-}
-
 
 function moveSpaceship() { // moves spaceship randomly in X axis
   let randomPositionX = Math.random() * (gameBoxNode.offsetWidth - 37)
@@ -325,38 +324,34 @@ function checkTimer() {
   }
 }
 
-
-function gameOver() {
-  hitchhikerObj.isAlive = false
-
+function clearAllIntervals() {
+  
   clearInterval(gameIntervalId)
   clearInterval(spaceshipsIntervalId)
   clearInterval(increaseSpeedIntervalId)
   clearInterval(towelIntervalId)
   clearInterval(timerIntervalId)
+}
+
+function gameOver() {
+  hitchhikerObj.isAlive = false
+
+  clearAllIntervals()
 
   gameScreenNode.style.display = "none"
   endScreenNode.style.display = "flex"
 }
 
 function winGame() {
-  clearInterval(gameIntervalId)
-  clearInterval(spaceshipsIntervalId)
-  clearInterval(increaseSpeedIntervalId)
-  clearInterval(towelIntervalId)
-  clearInterval(timerIntervalId)
+  clearAllIntervals()
 
   gameScreenNode.style.display = "none"
   winScreenNode.style.display = "flex"
 }
 
-
 function resetGame() {
-  clearInterval(gameIntervalId)
-  clearInterval(spaceshipsIntervalId)
-  clearInterval(increaseSpeedIntervalId)
-  clearInterval(towelIntervalId)
-  clearInterval(timerIntervalId)
+
+  clearAllIntervals()
 
   startScreenNode.style.display = "flex"
   gameScreenNode.style.display = "none"
@@ -405,49 +400,28 @@ againBtnNode.addEventListener("click", resetGame)
 
 winBtnNode.addEventListener("click", resetGame)
 
-document.addEventListener("keydown", (event) => {
-  // console.log('pressing key')
+window.addEventListener("keydown", (event) => {
 
-  if (event.key === "d") {
-    hitchhikerObj.moveX("right")
-    // console.log('moving right')
-  } else if (event.key === "a") {
-    hitchhikerObj.moveX("left")
-    // console.log('moving left')
+  if (event.key === "w") {
+    hitchhikerObj.keys.up = true;
   } else if (event.key === "s") {
-    hitchhikerObj.moveY("down")
-    // console.log('moving down')
-  } else if (event.key === "w") {
-    hitchhikerObj.moveY("up")
-    // console.log('moving up')
+    hitchhikerObj.keys.down = true;
+  } else if (event.key === "d") {
+    hitchhikerObj.keys.right = true;
+  } else if (event.key === "a") {
+    hitchhikerObj.keys.left = true;
   }
 })
+  
+window.addEventListener("keyup", (event) => {
 
-// SMOOTH MOVEMENT ALTERNATIVE OPTION -> LOWER hitchhiker.speed to 5
-
-// let keysPressed = {}
-
-// document.addEventListener("keydown", (event) => { // add keys as object player properties + add movement to loop
-//   keysPressed[event.key] = true;
-// });
-
-// document.addEventListener("keyup", (event) => {
-//   keysPressed[event.key] = false;
-// });
-
-// function updateMovement() {
-//   if (keysPressed["d"]) {
-//     hitchhikerObj.moveX("right");
-//   }
-//   if (keysPressed["a"]) {
-//     hitchhikerObj.moveX("left");
-//   }
-//   if (keysPressed["w"]) {
-//     hitchhikerObj.moveY("up");
-//   }
-//   if (keysPressed["s"]) {
-//     hitchhikerObj.moveY("down");
-//   }
-// }
-
-// setInterval(updateMovement, 16);
+  if (event.key === "w") {
+    hitchhikerObj.keys.up = false;
+  } else if (event.key === "s") {
+    hitchhikerObj.keys.down = false;
+  } else if (event.key === "a") {
+    hitchhikerObj.keys.left = false;
+  } else if (event.key === "d") {
+    hitchhikerObj.keys.right = false;
+  }
+})
