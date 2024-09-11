@@ -87,26 +87,31 @@ button:active {
   font-family: 'Courier New', Courier, monospace;
 }
 
-#towel-counter {
+#counters-container {
+  display: flex;
+  gap: 10px;
   position: absolute;
   top: 10px;
-  right: 230px; /* position depends on life-bar-container width */
-  width: 60px;
+  right: 230px; /* depends on life-bar width */
+}
+
+#crashes-counter, #towel-counter {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background-color: #5e5e5e;
+  background-color: #3c3c3cc9;
   padding: 5px;
   border-radius: 5px;
+  width: 60px;
 }
 
-#towel-icon {
+#spaceship-icon, #towel-icon {
   width: 25px;
   height: 25px;
   margin-right: 5px;
 }
 
-#total-towels {
+#total-collisions, #total-towels {
   font-size: 24px;
   font-weight: 600;
   color: #fce149;
@@ -119,8 +124,8 @@ button:active {
   right: 15px;
   width: 200px;
   height: 20px;
-  background-color: #b9b9b9;
-  border: 2px solid #5e5e5e;
+  background-color: #3c3c3cc9;
+  border: 2px solid #b9b9b9;
   border-radius: 10px;
 }
 

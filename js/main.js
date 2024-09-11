@@ -13,9 +13,10 @@ const winBtnNode = document.querySelector("#play-again-btn-win")
 const gameBoxNode = document.querySelector("#game-box")
   // timer
   const timeDisplayNode = document.querySelector("#time-display")
-  // towel-counter
+  // crashed-spaceships-counter
   const totalTowelsNode = document.querySelector("#total-towels")
-
+  // towel-counter
+  const totalCollisionsNode = document.querySelector("#total-collisions")
   // life-bar
   const lifeBarNode = document.querySelector("#life-bar")
 
@@ -29,7 +30,7 @@ let spaceshipsFrequency = 1000
 let spaceshipSpeed = 3
 
 let towelArray = []
-let towelFrequency = 1600
+let towelFrequency = 2000
 let towelSpeed = 6
 
 let gameIntervalId = null
@@ -43,14 +44,13 @@ let damageCount = 0
 
 let timer = 0
 let timerIntervalId = null
-let winningTime = 260 // ==> 2' 40'
+let winningTime = 160 // ==> 2' 40'
 
 let totalCollisionsGameOver = 5
 
 
 // **********************************************************************
 // GLOBAL FUNCTIONS
-
 
 // start game function
 function startGame() {
@@ -82,11 +82,16 @@ function startGame() {
     updateTimeDisplay()
   }, 1000) // interval increases time after each 1" --> until it reaches 4' 20"
 
-  increaseSpaceshipSpeed()
 
   towelCount = 0
   updateTowelCounter()
   totalTowelsNode.innerHTML = 0
+
+  collisionCount = 0
+  updateTotalCrashedSpaceshipsCounter()
+  totalCollisionsNode.innerHTML = 0
+
+  increaseSpaceshipSpeed()
 }
 
 function gameLoop() { // this happens each 60"
@@ -101,7 +106,8 @@ function gameLoop() { // this happens each 60"
 
   hitchhikerObj.hitchhikerMovement()
   detectSpaceshipColision()
-  updateTowelCounter()
+  updateTotalCrashedSpaceshipsCounter()
+  updateTowelCounter() ///////////////////////// is this needed?
   catchTowel()
   removeSkippedSpaceships()
   removeUsedTowels()
@@ -140,6 +146,8 @@ function throwTowel() {
   // console.log('NEW TOWEL')
 }
 
+
+
 function detectSpaceshipColision() {
 
   spaceshipsArray.forEach((eachSpaceship, index) => { // index added to remove each spaceship after collision
@@ -156,7 +164,7 @@ function detectSpaceshipColision() {
       // console.log('hitchhiker crashed!')
 
       let explosionEffect = new Audio("./assets/audio/explosion_002.wav")
-      explosionEffect.volume = 0.05
+      explosionEffect.volume = 0.02
       explosionEffect.play()
       eachSpaceship.node.src = "./assets/explosion-0.png" // changes image to show
       eachSpaceship.isCrashed = true // avoids multiple detection and stops de function in the loop
@@ -246,7 +254,11 @@ function removeSkippedSpaceships() {
 }
 
 function updateTowelCounter() {
-  totalTowelsNode.innerText = towelCount;
+  totalTowelsNode.innerText = towelCount
+}
+
+function updateTotalCrashedSpaceshipsCounter() {
+  totalCollisionsNode.innerText = collisionCount
 }
 
 function catchTowel() {
@@ -289,8 +301,6 @@ function catchTowel() {
     
       if (hitchhikerObj.isImmune) return
 
-      hitchhikerObj.node.style.transition = "width 0.5s ease, height 0.5s ease"
-
       hitchhikerObj.isImmune = true
       console.log('immunity activated!')
       let immunityEffect = new Audio("./assets/audio/immunity-effect.wav")
@@ -298,8 +308,8 @@ function catchTowel() {
       immunityEffect.playbackRate = 0.42
       immunityEffect.play()
 
+      hitchhikerObj.node.style.transition = "width 0.7s ease, height 0.7s ease"
       hitchhikerObj.node.src = "./assets/hitchhiker-power-up.png"
-
       hitchhikerObj.w = 26
       hitchhikerObj.h = 64
       hitchhikerObj.node.style.width = `${hitchhikerObj.w}px`
@@ -400,7 +410,7 @@ function resetGame() {
     eachTowel.node.remove();
   });
   towelArray = []
-  towelFrequency = 1500
+  towelFrequency = 2000
 
   hitchhikerObj.node.remove()
   // console.log('hitchhiker removed')
@@ -411,12 +421,13 @@ function resetGame() {
   towelIntervalId = null
   // increaseSpeedIntervalId = null // executed in increaseSpaceshipSpeed()
 
-  collisionCount = 0
-  updateLifeBar()
-
   towelCount = 0
   updateTowelCounter()
   totalTowelsNode.innerHTML = 0
+
+  collisionCount = 0
+  updateTotalCrashedSpaceshipsCounter()
+  totalCollisionsNode.innerHTML = 0
 
   timer = 0
   // updates timer to 00:00

@@ -6,7 +6,7 @@ class Hitchhiker {
   this.y = 342; // puts hitchhiker at the bottom of the game-box
   this.w = 20;
   this.h = 50;
-  this.speed = 10;
+  this.speed = 7;
   this.isImmune = false;
   this.isAlive = true;
 
