@@ -39,12 +39,14 @@ let increaseSpeedIntervalId = null
 
 let collisionCount = 0
 let towelCount = 0
+let damageCount = 0
 
 let timer = 0
 let timerIntervalId = null
 let winningTime = 260 // ==> 2' 40'
 
 let totalCollisionsGameOver = 5
+
 
 // **********************************************************************
 // GLOBAL FUNCTIONS
@@ -169,21 +171,13 @@ function detectSpaceshipColision() {
         // console.log('spaceship removed after explosion')
       }, 750)
 
-      // eachSpaceship.node.remove()
-      // spaceshipsArray.splice(index, 1)
-      // collisionCount += 1
-
-      if (hitchhikerObj.isImmune) return // function stops here if hitchhiker gets immunity
-
-      collisionCount += 1
+      collisionCount++
       console.log('spaceship crashed +1')
 
-      updateLifeBar()
-
-      if (hitchhikerObj.isAlive === false) return // avoids duplicated last explosion
+      hitchhikerDamaged()
 
 
-      if (collisionCount >= totalCollisionsGameOver) {
+      if (damageCount >= totalCollisionsGameOver) {
 
         let lastExplosionEffect = new Audio("./assets/audio/last-explosion.wav")
         lastExplosionEffect.volume = 0.50
@@ -203,15 +197,35 @@ function detectSpaceshipColision() {
         eachSpaceship.node.style.width = `${eachSpaceship.w}px`
         eachSpaceship.node.style.height = `${eachSpaceship.h}px`
 
-        if (hitchhikerObj.isAlive === false) return // avoids duplicated last explosion
+        // if (hitchhikerObj.isAlive === false) return // avoids duplicated last explosion
 
         setTimeout(() => {
+          if (hitchhikerObj.isAlive === false) return // avoids duplicated last explosion
           console.log('GAME OVER')
           gameOver()
         }, 700)
       }
     }
   })
+}
+
+function hitchhikerDamaged() {
+  if (hitchhikerObj.isImmune) return
+
+  damageCount++
+  console.log(`total damage: ${damageCount}`)
+  updateLifeBar()
+
+}
+
+
+function updateLifeBar() {
+  // let maxCollisions = totalCollisionsGameOver
+  // let lifePercentage = ((maxCollisions - collisionCount) / maxCollisions) * 100
+  let lifePercentage = ((totalCollisionsGameOver - damageCount) / totalCollisionsGameOver) * 100
+
+  lifeBarNode.style.width = `${lifePercentage}%`
+
 }
 
 function removeSkippedSpaceships() {
@@ -228,7 +242,6 @@ function removeSkippedSpaceships() {
 }
 
 function updateTowelCounter() {
-  
   totalTowelsNode.innerText = towelCount;
 }
 
@@ -239,7 +252,7 @@ function catchTowel() {
     // if (eachTowel.isCatched) return
     // if (hitchhikerObj.isImmune) return
     if (hitchhikerObj.isAlive === false) return
-    if (collisionCount >= totalCollisionsGameOver) return
+    if (damageCount >= totalCollisionsGameOver) return
 
 
     if (
@@ -312,14 +325,6 @@ function removeUsedTowels() {
       // console.log('towel removed')
     }
   })
-}
-
-function updateLifeBar() {
-  let maxCollisions = totalCollisionsGameOver
-  let lifePercentage = ((maxCollisions - collisionCount) / maxCollisions) * 100
-
-  lifeBarNode.style.width = `${lifePercentage}%`
-
 }
 
 function increaseSpaceshipSpeed() { // increases speed and frequency
@@ -408,6 +413,9 @@ function resetGame() {
   checkTimer()
   updateTimeDisplay()
   timerIntervalId = null
+
+  damageCount = 0
+  updateLifeBar()
 }
 
 
