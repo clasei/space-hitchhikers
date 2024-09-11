@@ -289,11 +289,13 @@ function catchTowel() {
     
       if (hitchhikerObj.isImmune) return
 
+      hitchhikerObj.node.style.transition = "width 0.5s ease, height 0.5s ease"
+
       hitchhikerObj.isImmune = true
       console.log('immunity activated!')
       let immunityEffect = new Audio("./assets/audio/immunity-effect.wav")
-      immunityEffect.volume = 0.05
-      immunityEffect.playbackRate = 0.5
+      immunityEffect.volume = 0.07
+      immunityEffect.playbackRate = 0.42
       immunityEffect.play()
 
       hitchhikerObj.node.src = "./assets/hitchhiker-power-up.png"

@@ -30,16 +30,18 @@ class Hitchhiker {
   }
 
   hitchhikerMovement() {
-    if (this.keys.up && this.y >= 0) {
+    let padding = 5
+
+    if (this.keys.up && this.y >= padding) {
       this.y -= this.speed;
     }
-    if (this.keys.down && this.y <= (gameBoxNode.offsetHeight - this.h)) {
+    if (this.keys.down && this.y <= (gameBoxNode.offsetHeight - this.h - padding)) {
       this.y += this.speed;
     }
-    if (this.keys.left && this.x >= 0) {
+    if (this.keys.left && this.x >= padding) {
       this.x -= this.speed;
     }
-    if (this.keys.right && this.x <= (gameBoxNode.offsetWidth - this.w)) {
+    if (this.keys.right && this.x <= (gameBoxNode.offsetWidth - this.w - padding)) {
       this.x += this.speed;
     }
     
