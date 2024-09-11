@@ -11,7 +11,7 @@ class Hitchhiker {
   this.isAlive = true;
 
   this.node = document.createElement("img")
-  this.node.src = "../assets/hitchhiker.png"
+  this.node.src = "./assets/hitchhiker.png"
   
   gameBoxNode.append(this.node) // adds hitchhiker to game-box
 

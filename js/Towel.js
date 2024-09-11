@@ -10,7 +10,7 @@ class Towel {
     this.isCatched = false; // propierty created to avoid multiple detection in detectSpaceshipColision()
 
     this.node = document.createElement("img")
-    this.node.src = "../assets/towel.png"
+    this.node.src = "./assets/towel.png"
 
     gameBoxNode.append(this.node)
 
