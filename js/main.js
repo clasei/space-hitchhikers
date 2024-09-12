@@ -27,13 +27,40 @@ const gameBoxNode = document.querySelector("#game-box")
 let playerNameInput = document.querySelector("#playerName")
 
 // audio
+let spaceThemeSong = new Audio("./assets/audio/space-hitchhiker-song.mp3")
+    spaceThemeSong.volume = 0.02
 let explosionEffect = new Audio("./assets/audio/explosion_002.wav")
+    explosionEffect.volume = 0.0025
+let lastExplosionEffect = new Audio("./assets/audio/last-explosion.wav")
+    lastExplosionEffect.volume = 0.20
 let bulletEffect = new Audio("./assets/audio/space-bullet.wav")
+    bulletEffect.volume = 0.04
+let towelEffect = new Audio("./assets/audio/catch-towel.wav")
+    towelEffect.volume = 0.025
+let immunityEffect = new Audio("./assets/audio/immunity-effect.mp3")
+    immunityEffect.volume = 0.015
+    immunityEffect.playbackRate = 0.60
+let youWin = new Audio("./assets/audio/you-win.wav")
+    youWin.volume = 0.20
+    youWin.playbackRate = 0.45
+
+const musicOffIcon = document.querySelector("#music-off")
+musicOffIcon.src = "./assets/sound-off.svg"
+musicOffIcon.style.filter = "invert(100%)"
+
+const musicOnIcon = document.querySelector("#music-on")
+musicOnIcon.src = "./assets/sound-on.svg"
+musicOnIcon.style.filter = "invert(100%)"
 
 // **********************************************************************
 // GLOBAL VARIABLES
 
 let hitchhikerObj = null // hitchiker created and accesible
+
+// game
+let isGameRunning = false
+let isGameEnding = false
+let playerTotalScore = 0
 
 let gameIntervalId = null
 let timerIntervalId = null
@@ -41,12 +68,14 @@ let spaceshipsIntervalId = null
 let towelIntervalId = null
 let increaseSpeedIntervalId = null
 
+let isMusicPlaying = false
+
 let collisionCount = 0
 let towelCount = 0
 let damageCount = 0
 
 let timer = 0
-let winningTime = 260 // ==> 4'20" == 260
+let winningTime = 240 // ==> 4'20" == 260
 
 let spaceshipsArray = []
 let bulletsArray = []
@@ -54,17 +83,12 @@ let towelArray = []
 
 let towelSpeed = 6
 let spaceshipSpeed = 3
-let bulletSpeed = 5
+let bulletSpeed = 9
 
 let spaceshipsFrequency = 1000
 let towelFrequency = 3000
 
 let totalCollisionsGameOver = 5
-
-// game
-let isGameRunning = false
-let isGameEnding = false
-let playerTotalScore = 0
 
 // player
 let playerName = ""
@@ -76,12 +100,15 @@ let playerName = ""
 // start game function
 function startGame() {
 
-  isGameRunning = true
   isGameEnding = false
+  isGameRunning = true
   playerTotalScore = 0
 
+  spaceThemeSong.play()
+  spaceThemeSong.loop = true
+
   playerName = playerNameInput.value
-  console.log(playerName)
+  // console.log(playerName)
 
   clearAllIntervals()
 
@@ -185,13 +212,13 @@ function throwTowel() {
 }
 
 function hitchhikerShoots() {
-  if (towelCount < 3) return
+  if (towelCount < 21) return
 
   let bullet = new Bullet(hitchhikerObj.x + hitchhikerObj.w / 2 - 2.5, hitchhikerObj.y - 10, 5) // bullet position
   bulletsArray.push(bullet)
-  bulletEffect.volume = 0.05
+  
   bulletEffect.play()
-  console.log('hitchikker shooting')
+  // console.log('hitchikker shooting')
 }
 
 function updateBullets() {
@@ -217,25 +244,17 @@ function detectBulletCollision() {
         eachBullet.remove()
         bulletsArray.splice(bulletIndex, 1)
 
-        explosionEffect = new Audio("./assets/audio/explosion_002.wav")
-        explosionEffect.volume = 0.02
         explosionEffect.play()
         eachSpaceship.node.src = "./assets/explosion-0.png"
         eachSpaceship.isCrashed = true
 
-        // // removes element from the screen after bullet -->
+        // // removes target from the screen after bullet -->
         setTimeout(() => {
           eachSpaceship.node.remove()
           spaceshipsArray.splice(spaceshipsArray.indexOf(eachSpaceship), 1)
           // spaceshipsArray.splice(spaceshipIndex, 1)
           console.log('spaceship removed after bullet')
         }, 500)
-
-        // eachSpaceship.node.remove()
-        // // spaceshipsArray.splice(spaceshipIndex, 1)
-        // spaceshipsArray.splice(spaceshipsArray.indexOf(eachSpaceship), 1)
-        // // spaceshipsArray.shift()
-        // console.log('spaceship removed after bullet');
 
         collisionCount++
       }
@@ -245,7 +264,7 @@ function detectBulletCollision() {
 
 function detectSpaceshipColision() {
 
-  spaceshipsArray.forEach((eachSpaceship, index) => { // index added to remove each spaceship after collision
+  spaceshipsArray.forEach((eachSpaceship) => {
 
     if (isGameEnding) return /// NEW TO AVOID ISSUES WITH LOCAL STORAGE
     if (eachSpaceship.isCrashed) return
@@ -259,7 +278,6 @@ function detectSpaceshipColision() {
     ) {
       // console.log('hitchhiker crashed!')
 
-      explosionEffect = new Audio("./assets/audio/explosion_002.wav")
       explosionEffect.volume = 0.02
       explosionEffect.play()
       eachSpaceship.node.src = "./assets/explosion-0.png" // changes image to show
@@ -286,8 +304,6 @@ function detectSpaceshipColision() {
 
         if (hitchhikerObj.isAlive === false) return
 
-        let lastExplosionEffect = new Audio("./assets/audio/last-explosion.wav")
-        lastExplosionEffect.volume = 0.50
         lastExplosionEffect.play()
         
         hitchhikerObj.node.style.transition = "width 0.7s ease, height 0.7s ease"
@@ -307,7 +323,7 @@ function detectSpaceshipColision() {
 
         setTimeout(() => {
 
-          console.log('GAME OVER')
+          // console.log('GAME OVER')
           gameOver()
         }, 1000)
       }
@@ -361,7 +377,7 @@ function catchTowel() {
 
   towelArray.forEach((eachTowel) => {
 
-    // if (eachTowel.isCatched) return
+    if (eachTowel.isCatched) return
     // if (hitchhikerObj.isImmune) return
     if (hitchhikerObj.isAlive === false) return
     if (damageCount >= totalCollisionsGameOver) return
@@ -374,12 +390,9 @@ function catchTowel() {
       hitchhikerObj.y + hitchhikerObj.h > eachTowel.y
     ) {
 
-      if (eachTowel.isCatched) return
+      // if (eachTowel.isCatched) return
 
       eachTowel.isCatched = true // avoids multiple detection
-
-      let towelEffect = new Audio("./assets/audio/catch-towel.wav")
-      towelEffect.volume = 0.05
       towelEffect.play()
 
       // changes image size in JS
@@ -396,14 +409,10 @@ function catchTowel() {
       // console.log(`total towels = ${towelCount}`)
     
       if (hitchhikerObj.isImmune) return
-
-      hitchhikerObj.isImmune = true
-      console.log('immunity activated!')
-      let immunityEffect = new Audio("./assets/audio/immunity-effect.wav")
-      immunityEffect.volume = 0.07
-      immunityEffect.playbackRate = 0.50
       immunityEffect.play()
-
+      hitchhikerObj.isImmune = true
+      // console.log('immunity activated!')
+      
       hitchhikerObj.node.style.transition = "width 0.7s ease, height 0.7s ease"
       hitchhikerObj.node.src = "./assets/hitchhiker-power-up.png"
       hitchhikerObj.w = 26
@@ -411,6 +420,7 @@ function catchTowel() {
       hitchhikerObj.node.style.width = `${hitchhikerObj.w}px`
       hitchhikerObj.node.style.height = `${hitchhikerObj.h}px`
 
+      if (isGameEnding) return
 
       setTimeout(() => { // activates immunity
 
@@ -420,7 +430,7 @@ function catchTowel() {
         hitchhikerObj.node.src = "./assets/hitchhiker.png"
         hitchhikerObj.node.style.width = `${hitchhikerObj.w}px`
         hitchhikerObj.node.style.height = `${hitchhikerObj.h}px`
-      }, 4000)
+      }, 3000)
     }
   })
 }
@@ -442,8 +452,9 @@ function removeUsedTowels() {
 function increaseSpaceshipSpeed() { // increases speed and frequency
 
   increaseSpeedIntervalId = setInterval(() => {
+    console.log(`speed = ${spaceshipSpeed} frequency = ${spaceshipsFrequency}`)
     if (spaceshipSpeed >= 7) return
-    if (spaceshipsFrequency <= 240) return
+    if (spaceshipsFrequency <= 300) return
 
     spaceshipSpeed += 0.10
     spaceshipsFrequency -= 40
@@ -453,12 +464,13 @@ function increaseSpaceshipSpeed() { // increases speed and frequency
       moveSpaceship()
     }, spaceshipsFrequency)
 
-    console.log(`speed = ${spaceshipSpeed} frequency = ${spaceshipsFrequency}`)
+    
   }, 5000)
 }
 
 function checkTimer() {
   if (timer > winningTime) {
+    isGameEnding = true
     winGame()
   }
 }
@@ -471,7 +483,11 @@ function totalScore() {
 
 // console.log(playerTotalScore)
 
-// +++++++++++++++++++++++++++++++++++++++
+function stopAudio() {
+  if (!spaceThemeSong.paused)
+  spaceThemeSong.pause()
+  spaceThemeSong.currentTime = 0
+}
 
 function clearAllIntervals() {
   
@@ -485,6 +501,8 @@ function clearAllIntervals() {
 function gameOver() {
 
   isGameRunning = false
+
+  stopAudio()
   
   playerTotalScore = totalScore()
   console.log(playerTotalScore)
@@ -503,6 +521,10 @@ function winGame() {
 
   isGameRunning = false
 
+  stopAudio()
+
+  youWin.play()
+
   playerTotalScore = totalScore()
   console.log(playerTotalScore)
   winnerScoreDisplay.innerHTML = playerTotalScore
@@ -511,10 +533,6 @@ function winGame() {
   displayHighScores("#high-scores-list-win")
 
   clearAllIntervals()
-
-  let youWin = new Audio("./assets/audio/you-win.wav")
-  youWin.volume = 0.70
-  youWin.play()
 
   gameScreenNode.style.display = "none"
   winScreenNode.style.display = "flex"
@@ -530,7 +548,7 @@ function resetGame() {
   winScreenNode.style.display = "none"
 
   spaceshipsArray.forEach((eachSpaceship) => {
-    eachSpaceship.node.remove(); // removes each spaceship's node
+    eachSpaceship.node.remove()
   });
   spaceshipsArray = []
 
@@ -546,7 +564,6 @@ function resetGame() {
   gameIntervalId = null
   spaceshipsIntervalId = null
   towelIntervalId = null
-  // increaseSpeedIntervalId = null // executed in increaseSpaceshipSpeed()
 
   towelCount = 0
   updateTowelCounter()
@@ -621,9 +638,20 @@ window.addEventListener("keyup", (event) => {
 
 document.addEventListener("keydown", (event) => {
   if (isGameRunning === false) return;
-
   if (event.key === "k") {
     // console.log("Key 'k' pressed")
     hitchhikerShoots()
   }
-});
+})
+
+musicOffIcon.addEventListener('click', () => {
+  musicOffIcon.style.display = 'none'
+  musicOnIcon.style.display = 'block'
+  spaceThemeSong.play()
+})
+
+musicOnIcon.addEventListener('click', () => {
+  musicOnIcon.style.display = 'none'
+  musicOffIcon.style.display = 'block'
+  spaceThemeSong.pause()
+})
