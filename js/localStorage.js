@@ -12,14 +12,12 @@ function saveScoreToLocalStorage() {
   highScores = highScores.slice(0, 5)
 
   localStorage.setItem("highScores", JSON.stringify(highScores))
-
-  console.log("saved highscores ", highScores)
+  // console.log("saved highscores ", highScores)
 }
 
 function displayHighScores(selector) {
   let highScores = JSON.parse(localStorage.getItem("highScores")) || []
-
-  console.log("showing highscores ", highScores)
+  // console.log("showing highscores ", highScores)
 
   const highScoresDisplayNode = document.querySelector(selector) // uses selector to allow display in both screens
   highScoresDisplayNode.innerHTML = ""
