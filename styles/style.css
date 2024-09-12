@@ -16,17 +16,18 @@ body {
 
 h1 {
   font-family: "VT323", monospace;
-  font-size: 70px;
+  font-size: 75px;
   letter-spacing: 1px;
   color: #fce149;
-  text-shadow: 2px 2px 4px #849685;
+  text-shadow: 2px 2px 10px #849685;
+  margin-top: 10px;
 }
 
 video {
   width: 300px;
   border-radius: 25px;
   box-shadow: 2px 2px 4px #849685;
-  margin-bottom: 25px;
+  margin-bottom: 10px;
 }
 
 .playerInput {
@@ -74,9 +75,9 @@ video {
   font-size: 23px;
   font-family: "VT323", monospace;
   letter-spacing: 1px;
-  text-shadow: 2px 2px 4px #7c7c7c;
+  text-shadow: 2px 2px 10px #849685;
   padding: 10px;
-  margin-top: 30px;
+  margin: 25px;
   border-radius: 8px;
   background-color: #ff4757;
   /* border: 2px solid #dcdde1; */
@@ -111,6 +112,14 @@ video {
   background-color: #ff6b6b;
 }
 
+.game-box-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
 #game-box {
   width:600px;
   height:400px;
@@ -120,19 +129,36 @@ video {
   background-image: url(../assets/nasa-space.jpg);
   background-position: center;
   background-size: cover;
-  border: 1px solid #fce149;
+  border: 2px solid #fce149;
   border-radius: 25px;
+  box-shadow: 2px 2px 10px #849685;
   margin: 20px;
+}
+
+#game-box-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 550px;
+  margin: 20px;
+  padding: 5px 20px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 2px solid #fce149;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px #849685;
+  font-family: "VT323", monospace;
+  font-size: 18px;
+  color: #fce149;
 }
 
 #time-display {
   position: absolute;
   top: 10px;
   left: 15px;
-  font-size: 30px;
+  font-size: 42px;
   font-weight: 600;
   color: white;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "VT323", monospace;
 }
 
 #counters-container {
@@ -150,7 +176,7 @@ video {
   background-color: #3c3c3cc9;
   padding: 5px;
   border-radius: 5px;
-  width: 60px;
+  width: 67px;
 }
 
 #spaceship-icon, #towel-icon {
@@ -160,15 +186,15 @@ video {
 }
 
 #total-collisions, #total-towels {
-  font-size: 24px;
+  font-size: 32px;
   font-weight: 600;
   color: #fce149;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "VT323", monospace;
 }
 
 #life-bar-container {
   position: absolute;
-  top: 15px;
+  top: 20px;
   right: 15px;
   width: 200px;
   height: 20px;
@@ -184,6 +210,48 @@ video {
   border-radius: 10px;
 }
 
+#music-control {
+  display: flex;
+  gap: 5px;
+}
+
+#music-control img {
+  width: 40px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+#music-control img:hover {
+  transform: scale(1.2);
+}
+
+#music-status {
+  color: #e4e4e4;
+  font-family: "VT323", monospace;
+  font-size: 13px;
+  margin-top: 13px;
+}
+
+#credits {
+  text-align: right;
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: #fce149;
+}
+
+#credits a {
+  background-color: #6d8ff65c;
+  color: #fce149;
+  text-decoration: none;
+  transition: all 0.3 ease;
+  padding: 0 5px;
+}
+
+#credits a:hover, #credits a:active {
+  font-size: 17;
+  text-shadow: 2px 2px 4px #7c7c7c;
+}
+
 #score-display {
   min-width: 250px;
   font-family: "VT323", monospace;
@@ -197,7 +265,7 @@ video {
   border: 2px solid #fce149;
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.6);
-  box-shadow: 1px 1px 42px #849685;
+  box-shadow: 2px 2px 10px #849685;
 }
 
 #player-total-score, #winner-total-score {
@@ -207,25 +275,18 @@ video {
   margin-left: 15px;
 }
 
-#game-screen, #end-screen, #win-screen {
-  display: none;
-}
-
-#counters-container, #time-display, #life-bar {
-  z-index: 2;
-}
-
 .top-scores {
   font-family: "VT323", monospace;
   font-size: 35px;
   text-align: center;
   color: #f5f5f5;
+  text-shadow: 2px 2px 10px #849685;
   margin-top: 15px;
   margin-bottom: 15px;
 }
 
 #high-scores-list, #high-scores-list-win {
-  width: 300px;
+  min-width: 300px;
   background: linear-gradient(135deg, rgba(255, 0, 95, 0.25), rgba(255, 95, 0, 0.25), rgba(255, 170, 0, 0.25), rgba(170, 255, 0, 0.25), rgba(0, 255, 170, 0.25), rgba(0, 95, 255, 0.25), rgba(170, 0, 255, 0.25));
   border: 2px solid #f5f5f5;
   list-style-type: none;
@@ -243,4 +304,12 @@ video {
   color: #fce149;
   padding: 2px;
   border-radius: 5px;
+}
+
+#game-screen, #end-screen, #win-screen, #music-on {
+  display: none;
+}
+
+#counters-container, #time-display, #life-bar {
+  z-index: 2;
 }
