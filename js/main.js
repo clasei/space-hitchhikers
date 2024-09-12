@@ -223,19 +223,13 @@ function detectBulletCollision() {
         eachSpaceship.node.src = "./assets/explosion-0.png"
         eachSpaceship.isCrashed = true
 
-        // // removes element from the screen after bullet -->
+        // // removes target from the screen after bullet -->
         setTimeout(() => {
           eachSpaceship.node.remove()
           spaceshipsArray.splice(spaceshipsArray.indexOf(eachSpaceship), 1)
           // spaceshipsArray.splice(spaceshipIndex, 1)
           console.log('spaceship removed after bullet')
         }, 500)
-
-        // eachSpaceship.node.remove()
-        // // spaceshipsArray.splice(spaceshipIndex, 1)
-        // spaceshipsArray.splice(spaceshipsArray.indexOf(eachSpaceship), 1)
-        // // spaceshipsArray.shift()
-        // console.log('spaceship removed after bullet');
 
         collisionCount++
       }
@@ -245,7 +239,7 @@ function detectBulletCollision() {
 
 function detectSpaceshipColision() {
 
-  spaceshipsArray.forEach((eachSpaceship, index) => { // index added to remove each spaceship after collision
+  spaceshipsArray.forEach((eachSpaceship) => {
 
     if (isGameEnding) return /// NEW TO AVOID ISSUES WITH LOCAL STORAGE
     if (eachSpaceship.isCrashed) return
@@ -442,8 +436,11 @@ function removeUsedTowels() {
 function increaseSpaceshipSpeed() { // increases speed and frequency
 
   increaseSpeedIntervalId = setInterval(() => {
-    if (spaceshipSpeed >= 7) return
-    if (spaceshipsFrequency <= 240) return
+    console.log(`speed = ${spaceshipSpeed} frequency = ${spaceshipsFrequency}`)
+    if (spaceshipSpeed >= 4) return
+    console.log('speed increase stopped')
+    if (spaceshipsFrequency <= 800) return
+    console.log('frequency increase stopped')
 
     spaceshipSpeed += 0.10
     spaceshipsFrequency -= 40
@@ -453,7 +450,7 @@ function increaseSpaceshipSpeed() { // increases speed and frequency
       moveSpaceship()
     }, spaceshipsFrequency)
 
-    console.log(`speed = ${spaceshipSpeed} frequency = ${spaceshipsFrequency}`)
+    
   }, 5000)
 }
 

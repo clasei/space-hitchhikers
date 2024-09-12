@@ -229,6 +229,7 @@ video {
 
 #high-scores-list, #high-scores-list-win {
   width: 300px;
+  background-color: #00ff00;
   list-style-type: none;
   text-align: center;
   padding: 5px;
