@@ -187,7 +187,7 @@ video {
 }
 
 #score-display {
-  width: 250px;
+  min-width: 250px;
   font-family: "VT323", monospace;
   font-size: 27px;
   color: #fce149;
@@ -207,7 +207,7 @@ video {
   font-size: 42px;
   color: #00ff00;
   text-shadow: 1px 1px 3px #000000;
-  margin-left: 10px;
+  margin-left: 15px;
 }
 
 #game-screen, #end-screen, #win-screen {
