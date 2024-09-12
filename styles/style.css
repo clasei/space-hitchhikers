@@ -19,13 +19,13 @@ h1 {
   font-size: 70px;
   letter-spacing: 2px;
   color: #fce149;
-  text-shadow: 2px 2px 2px #849685;
+  text-shadow: 2px 2px 4px #849685;
 }
 
 video {
   width: 300px;
   border-radius: 25px;
-  box-shadow: 4px 2px 2px #849685;
+  box-shadow: 2px 2px 4px #849685;
   margin-bottom: 25px;
 }
 
@@ -75,10 +75,10 @@ video {
   font-family: "VT323", monospace;
   font-weight: 500;
   letter-spacing: 1px;
-  padding: 5px;
+  padding: 7px;
   margin-top: 30px;
   border-radius: 15px;
-  box-shadow: 4px 2px 2px #849685;
+  box-shadow: 2px 2px 4px #849685;
   cursor: pointer;
   transition: 0.4s ease;
 }
@@ -184,6 +184,29 @@ video {
   width: 100%;
   background-color: rgb(255, 0, 0);
   border-radius: 10px;
+}
+
+#score-display {
+  font-family: "VT323", monospace;
+  font-size: 27px;
+  color: #fce149;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+  margin-top: 50px;
+  padding: 10px 20px;
+  border: 2px solid #fce149;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.6); /* semi-transparent background */
+  box-shadow: 1px 1px 42px #849685;
+}
+
+#player-total-score {
+  font-size: 42px; /* Larger font size for emphasis */
+  color: #00ff00; /* Bright green color for score */
+  text-shadow: 1px 1px 3px #000000;
+  margin-left: 10px;
 }
 
 #game-screen, #end-screen, #win-screen {

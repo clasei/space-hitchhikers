@@ -9,6 +9,8 @@ const startBtnNode = document.querySelector("#start-btn")
 const againBtnNode = document.querySelector("#play-again-btn")
 const winBtnNode = document.querySelector("#play-again-btn-win")
 
+const playerScoreDisplay = document.querySelector("#player-total-score")
+
 // game-box
 const gameBoxNode = document.querySelector("#game-box")
   // timer
@@ -48,10 +50,12 @@ let spaceshipSpeed = 3
 let spaceshipsFrequency = 1000
 let towelFrequency = 2400
 
-let totalCollisionsGameOver = 5
+let totalCollisionsGameOver = 3
 
 // game
 let isGameRunning = false
+let isGameEnding = false
+let playerTotalScore = 0
 
 // player
 let playerName = ""
@@ -65,6 +69,8 @@ let playerNameInput = document.querySelector("#playerName")
 function startGame() {
 
   isGameRunning = true
+  isGameEnding = false
+  playerTotalScore = 0
 
   playerName = playerNameInput.value
   console.log(playerName)
@@ -83,7 +89,7 @@ function startGame() {
   hitchhikerObj = new Hitchhiker() 
   // spaceshipObj = new Spaceship() // not needed, array created in moveSpaceship()
 
-  // GAME-INTERVAL CREATED BELO
+  // GAME-INTERVAL CREATED BELOW
   gameIntervalId = setInterval(() => {
     // console.log('interval running')
     gameLoop() // this function will be executed each 60"
@@ -174,6 +180,7 @@ function detectSpaceshipColision() {
 
   spaceshipsArray.forEach((eachSpaceship, index) => { // index added to remove each spaceship after collision
 
+    if (isGameEnding) return /// NEW TO AVOID ISSUES WITH LOCAL STORAGE
     if (eachSpaceship.isCrashed) return
     if (hitchhikerObj.isAlive === false) return
 
@@ -207,6 +214,8 @@ function detectSpaceshipColision() {
       hitchhikerDamaged()
 
       if (damageCount >= totalCollisionsGameOver) {
+
+        isGameEnding = true /// NEW TO AVOID ISSUES WITH LOCAL STORAGE
 
         if (hitchhikerObj.isAlive === false) return
 
@@ -283,7 +292,7 @@ function updateTotalCrashedSpaceshipsCounter() {
 
 function catchTowel() {
 
-  towelArray.forEach((eachTowel, index) => {
+  towelArray.forEach((eachTowel) => {
 
     // if (eachTowel.isCatched) return
     // if (hitchhikerObj.isImmune) return
@@ -410,8 +419,9 @@ function gameOver() {
 
   isGameRunning = false
   
-  let playerTotalScore = totalScore()
+  playerTotalScore = totalScore()
   console.log(playerTotalScore)
+  playerScoreDisplay.innerHTML = playerTotalScore
 
   clearAllIntervals()
 
@@ -423,8 +433,9 @@ function winGame() {
 
   isGameRunning = false
 
-  let playerTotalScore = totalScore()
+  playerTotalScore = totalScore()
   console.log(playerTotalScore)
+  playerScoreDisplay.innerHTML = playerTotalScore
 
   clearAllIntervals()
 
@@ -488,6 +499,9 @@ function resetGame() {
     playerNameInput.value = ""
     playerName = ""
   }
+
+  playerTotalScore = 0
+  playerScoreDisplay.innerHTML = 0
 
 }
 
