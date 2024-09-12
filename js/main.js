@@ -50,7 +50,7 @@ let spaceshipSpeed = 3
 let spaceshipsFrequency = 1000
 let towelFrequency = 2400
 
-let totalCollisionsGameOver = 3
+let totalCollisionsGameOver = 5
 
 // game
 let isGameRunning = false
