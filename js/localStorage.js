@@ -7,7 +7,7 @@ function saveScoreToLocalStorage() {
     score: playerTotalScore
   }
 
-  highScores.push(newScore); // ADDS to array
+  highScores.unshift(newScore); // ADDS to array in the 1st position
   highScores.sort((a, b) => b.score - a.score)
   highScores = highScores.slice(0, 5)
 

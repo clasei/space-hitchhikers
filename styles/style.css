@@ -217,8 +217,18 @@ video {
   z-index: 2;
 }
 
+.top-scores-display h3 {
+  font-family: "VT323", monospace;
+  font-size: 30px;
+  text-align: center;
+  color: #f5f5f5;
+  margin-top: 50px;
+}
+
 #high-scores-list, #high-scores-list-win {
   list-style-type: none;
+  /* align-content: center; */
+  text-align: center;
   padding: 10px;
   margin-top: 25px;
   box-shadow: 1px 1px 10px #849685;
