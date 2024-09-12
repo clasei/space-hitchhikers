@@ -19,11 +19,17 @@
       <video src="./assets/video/video-game-loop-get-ready.mp4" alt="get-ready" autoplay loop muted></video>
     </div>
 
+    <div class="playerInput">
+      <label for="playerName">player</label>
+      <input type="text" id="playerName" name="name" autocomplete="name" required minlength="3" maxlength="24" size="24" placeholder="Arthur Dent" />
+    </div>
+
     <button id="start-btn" class="button">PLAY</button>
 
     <div id="info-container">
-      
+      <!-- GAME INFO HERE -->
     </div>
+
   </div>
 
   <!-- GAME SCREEN -->
@@ -65,7 +71,7 @@
     <h1>SpaceHitchhikers</h1>
     <!-- <img src="./assets/sh-start-header-h1.png" width="500" alt="game-header"> -->
     <video src="./assets/video/video-game-loop-you-win.mp4" alt="you-win" autoplay loop muted></video>
-    <button id="play-again-btn-win" class="button">PLAY AGAIN</button>
+    <button id="play-again-btn-win" class="button">I WANT MORE</button>
   </div>
 
   <script src="./js/main.js"></script>
