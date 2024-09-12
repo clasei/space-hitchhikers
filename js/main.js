@@ -20,6 +20,7 @@ const gameBoxNode = document.querySelector("#game-box")
   // life-bar
   const lifeBarNode = document.querySelector("#life-bar")
 
+
 // **********************************************************************
 // GLOBAL VARIABLES
 
@@ -49,6 +50,12 @@ let towelFrequency = 2400
 
 let totalCollisionsGameOver = 5
 
+// game
+let isGameRunning = false
+
+// player
+let playerName = ""
+let playerNameInput = document.querySelector("#playerName")
 
 
 // **********************************************************************
@@ -56,6 +63,11 @@ let totalCollisionsGameOver = 5
 
 // start game function
 function startGame() {
+
+  isGameRunning = true
+
+  playerName = playerNameInput.value
+  console.log(playerName)
 
   clearAllIntervals()
 
@@ -71,7 +83,7 @@ function startGame() {
   hitchhikerObj = new Hitchhiker() 
   // spaceshipObj = new Spaceship() // not needed, array created in moveSpaceship()
 
-  // GAME-INTERVAL CREATED BELOW
+  // GAME-INTERVAL CREATED BELO
   gameIntervalId = setInterval(() => {
     // console.log('interval running')
     gameLoop() // this function will be executed each 60"
@@ -375,6 +387,16 @@ function checkTimer() {
   }
 }
 
+// +++++++++++++++++++++++++++++++++++++++
+
+function totalScore() {
+  return ((towelCount * 10 + 1) * (collisionCount * 2 + 1) * (timer * 1 + 1))
+}
+
+// console.log(playerTotalScore)
+
+// +++++++++++++++++++++++++++++++++++++++
+
 function clearAllIntervals() {
   
   clearInterval(gameIntervalId)
@@ -386,6 +408,11 @@ function clearAllIntervals() {
 
 function gameOver() {
 
+  isGameRunning = false
+  
+  let playerTotalScore = totalScore()
+  console.log(playerTotalScore)
+
   clearAllIntervals()
 
   gameScreenNode.style.display = "none"
@@ -393,6 +420,12 @@ function gameOver() {
 }
 
 function winGame() {
+
+  isGameRunning = false
+
+  let playerTotalScore = totalScore()
+  console.log(playerTotalScore)
+
   clearAllIntervals()
 
   let youWin = new Audio("./assets/audio/you-win.wav")
@@ -450,6 +483,12 @@ function resetGame() {
 
   spaceshipsFrequency = 1000
   towelFrequency = 2400
+
+  if (playerNameInput || playerName) {
+    playerNameInput.value = ""
+    playerName = ""
+  }
+
 }
 
 
@@ -465,6 +504,8 @@ winBtnNode.addEventListener("click", resetGame)
 
 window.addEventListener("keydown", (event) => {
 
+  if (isGameRunning === false) return
+
   if (event.key === "w") {
     hitchhikerObj.keys.up = true;
   } else if (event.key === "s") {
@@ -477,6 +518,8 @@ window.addEventListener("keydown", (event) => {
 })
   
 window.addEventListener("keyup", (event) => {
+
+  if (isGameRunning === false) return
 
   if (event.key === "w") {
     hitchhikerObj.keys.up = false;
