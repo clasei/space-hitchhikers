@@ -202,7 +202,7 @@ video {
   box-shadow: 1px 1px 42px #849685;
 }
 
-#player-total-score {
+#player-total-score, #winner-total-score {
   font-size: 42px; /* Larger font size for emphasis */
   color: #00ff00; /* Bright green color for score */
   text-shadow: 1px 1px 3px #000000;

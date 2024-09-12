@@ -10,6 +10,7 @@ const againBtnNode = document.querySelector("#play-again-btn")
 const winBtnNode = document.querySelector("#play-again-btn-win")
 
 const playerScoreDisplay = document.querySelector("#player-total-score")
+const winnerScoreDisplay = document.querySelector("#winner-total-score")
 
 // game-box
 const gameBoxNode = document.querySelector("#game-box")
@@ -39,7 +40,7 @@ let towelCount = 0
 let damageCount = 0
 
 let timer = 0
-let winningTime = 160 // ==> 2' 40'
+let winningTime = 160 // ==> 2' 40" == 160"
 
 let spaceshipsArray = []
 let towelArray = []
@@ -48,7 +49,7 @@ let towelSpeed = 6
 let spaceshipSpeed = 3
 
 let spaceshipsFrequency = 1000
-let towelFrequency = 2400
+let towelFrequency = 3000
 
 let totalCollisionsGameOver = 5
 
@@ -78,7 +79,7 @@ function startGame() {
   clearAllIntervals()
 
   spaceshipsFrequency = 1000
-  towelFrequency = 2400
+  towelFrequency = 3000
   spaceshipSpeed = 3
   towelSpeed = 6
 
@@ -334,7 +335,7 @@ function catchTowel() {
       console.log('immunity activated!')
       let immunityEffect = new Audio("./assets/audio/immunity-effect.wav")
       immunityEffect.volume = 0.07
-      immunityEffect.playbackRate = 0.42
+      immunityEffect.playbackRate = 0.45
       immunityEffect.play()
 
       hitchhikerObj.node.style.transition = "width 0.7s ease, height 0.7s ease"
@@ -376,7 +377,7 @@ function increaseSpaceshipSpeed() { // increases speed and frequency
 
   increaseSpeedIntervalId = setInterval(() => {
     if (spaceshipSpeed >= 7) return
-    if (spaceshipsFrequency <= 300) return
+    if (spaceshipsFrequency <= 250) return
 
     spaceshipSpeed += 0.10
     spaceshipsFrequency -= 40
@@ -399,7 +400,7 @@ function checkTimer() {
 // +++++++++++++++++++++++++++++++++++++++
 
 function totalScore() {
-  return ((towelCount * 10 + 1) * (collisionCount * 2 + 1) * (timer * 1 + 1))
+  return ((towelCount * 2 + 1) * (collisionCount * 1 + 1) + ((timer * 2 + 2) * (totalCollisionsGameOver - damageCount + 42)))
 }
 
 // console.log(playerTotalScore)
@@ -435,7 +436,7 @@ function winGame() {
 
   playerTotalScore = totalScore()
   console.log(playerTotalScore)
-  playerScoreDisplay.innerHTML = playerTotalScore
+  winnerScoreDisplay.innerHTML = playerTotalScore
 
   clearAllIntervals()
 
