@@ -27,13 +27,23 @@ const gameBoxNode = document.querySelector("#game-box")
 let playerNameInput = document.querySelector("#playerName")
 
 // audio
+let spaceThemeSong = new Audio("./assets/audio/space-hitchhiker-song.mp3")
 let explosionEffect = new Audio("./assets/audio/explosion_002.wav")
+let lastExplosionEffect = new Audio("./assets/audio/last-explosion.wav")
 let bulletEffect = new Audio("./assets/audio/space-bullet.wav")
+let towelEffect = new Audio("./assets/audio/catch-towel.wav")
+let immunityEffect = new Audio("./assets/audio/immunity-effect.wav")
+let youWin = new Audio("./assets/audio/you-win.wav")
 
 // **********************************************************************
 // GLOBAL VARIABLES
 
 let hitchhikerObj = null // hitchiker created and accesible
+
+// game
+let isGameRunning = false
+let isGameEnding = false
+let playerTotalScore = 0
 
 let gameIntervalId = null
 let timerIntervalId = null
@@ -54,17 +64,12 @@ let towelArray = []
 
 let towelSpeed = 6
 let spaceshipSpeed = 3
-let bulletSpeed = 5
+let bulletSpeed = 4
 
 let spaceshipsFrequency = 1000
 let towelFrequency = 3000
 
 let totalCollisionsGameOver = 5
-
-// game
-let isGameRunning = false
-let isGameEnding = false
-let playerTotalScore = 0
 
 // player
 let playerName = ""
@@ -76,12 +81,12 @@ let playerName = ""
 // start game function
 function startGame() {
 
-  isGameRunning = true
   isGameEnding = false
+  isGameRunning = true
   playerTotalScore = 0
 
   playerName = playerNameInput.value
-  console.log(playerName)
+  // console.log(playerName)
 
   clearAllIntervals()
 
@@ -217,7 +222,6 @@ function detectBulletCollision() {
         eachBullet.remove()
         bulletsArray.splice(bulletIndex, 1)
 
-        explosionEffect = new Audio("./assets/audio/explosion_002.wav")
         explosionEffect.volume = 0.02
         explosionEffect.play()
         eachSpaceship.node.src = "./assets/explosion-0.png"
@@ -253,7 +257,6 @@ function detectSpaceshipColision() {
     ) {
       // console.log('hitchhiker crashed!')
 
-      explosionEffect = new Audio("./assets/audio/explosion_002.wav")
       explosionEffect.volume = 0.02
       explosionEffect.play()
       eachSpaceship.node.src = "./assets/explosion-0.png" // changes image to show
@@ -280,7 +283,6 @@ function detectSpaceshipColision() {
 
         if (hitchhikerObj.isAlive === false) return
 
-        let lastExplosionEffect = new Audio("./assets/audio/last-explosion.wav")
         lastExplosionEffect.volume = 0.50
         lastExplosionEffect.play()
         
@@ -372,7 +374,6 @@ function catchTowel() {
 
       eachTowel.isCatched = true // avoids multiple detection
 
-      let towelEffect = new Audio("./assets/audio/catch-towel.wav")
       towelEffect.volume = 0.05
       towelEffect.play()
 
@@ -392,8 +393,8 @@ function catchTowel() {
       if (hitchhikerObj.isImmune) return
 
       hitchhikerObj.isImmune = true
-      console.log('immunity activated!')
-      let immunityEffect = new Audio("./assets/audio/immunity-effect.wav")
+      // console.log('immunity activated!')
+      
       immunityEffect.volume = 0.07
       immunityEffect.playbackRate = 0.50
       immunityEffect.play()
@@ -509,8 +510,7 @@ function winGame() {
 
   clearAllIntervals()
 
-  let youWin = new Audio("./assets/audio/you-win.wav")
-  youWin.volume = 0.70
+  youWin.volume = 0.60
   youWin.play()
 
   gameScreenNode.style.display = "none"

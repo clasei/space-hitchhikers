@@ -17,7 +17,7 @@ body {
 h1 {
   font-family: "VT323", monospace;
   font-size: 70px;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   color: #fce149;
   text-shadow: 2px 2px 4px #849685;
 }
@@ -70,47 +70,45 @@ video {
 
 .button {
   width: 150px;
-  color: rgb(240, 240, 240);
-  font-size: 20px;
+  color: #f5f5f5;
+  font-size: 23px;
   font-family: "VT323", monospace;
-  font-weight: 500;
   letter-spacing: 1px;
-  padding: 7px;
+  text-shadow: 2px 2px 4px #7c7c7c;
+  padding: 10px;
   margin-top: 30px;
-  border-radius: 15px;
-  box-shadow: 2px 2px 4px #849685;
-  cursor: pointer;
-  transition: 0.4s ease;
+  border-radius: 8px;
+  background-color: #ff4757;
+  /* border: 2px solid #dcdde1; */
+  box-shadow: 2px 2px 4px #616161;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
 }
 
-.button:hover, .button:active {
-  font-size: 21px;
-  transform: scale(1.10);
-  box-shadow: 5px 3px 3px #849685;
+.button:hover {
+  transform: scale(1.1);
+  box-shadow: 3px 3px 6px #616161;
+}
+
+.button:active {
+  transform: scale(0.95);
+  box-shadow: 1px 1px 2px #616161;
 }
 
 #start-btn {
-  background-color: #0a9f58;
+  background-color: #49a73b;
 }
 
-#start-btn:hover, #start-btn:active {
-  background-color: #00cf94;
+#start-btn:hover {
+  background-color: #4cd137;
 }
 
-#play-again-btn {
-  background-color: #e86262;
+#play-again-btn, #play-again-btn-win {
+  background-color: #e74c3c;
 }
 
-#play-again-btn:hover, #play-again-btn:active {
-  background-color: #ea3434;
-}
-
-#play-again-btn-win {
-  background-color: #d101ca;
-}
-
-#play-again-btn-win:hover, #play-again-btn-win:active {
-  background-color: #fd66f8;
+#play-again-btn:hover, #play-again-btn-win:hover {
+  background-color: #ff6b6b;
 }
 
 #game-box {
@@ -194,8 +192,7 @@ video {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 20px;
-  margin-top: 50px;
+  margin: 50px;
   padding: 10px 20px;
   border: 2px solid #fce149;
   border-radius: 10px;
@@ -223,13 +220,14 @@ video {
   font-size: 35px;
   text-align: center;
   color: #f5f5f5;
-  margin-top: 50px;
-  margin-bottom: 20px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 #high-scores-list, #high-scores-list-win {
   width: 300px;
-  background-color: #00ff00;
+  background: linear-gradient(135deg, rgba(255, 0, 95, 0.25), rgba(255, 95, 0, 0.25), rgba(255, 170, 0, 0.25), rgba(170, 255, 0, 0.25), rgba(0, 255, 170, 0.25), rgba(0, 95, 255, 0.25), rgba(170, 0, 255, 0.25));
+  border: 2px solid #f5f5f5;
   list-style-type: none;
   text-align: center;
   padding: 5px;
@@ -241,8 +239,8 @@ video {
 #high-scores-list li, #high-scores-list-win li {
   margin: 10px;
   font-family: "VT323", monospace;
-  font-size: 25px;
-  color: #f5f5f5;
-  padding: 5px 10px;
+  font-size: 27px;
+  color: #fce149;
+  padding: 2px;
   border-radius: 5px;
 }
