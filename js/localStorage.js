@@ -26,7 +26,7 @@ function displayHighScores(selector) {
 
   highScores.forEach(score => {
     const scoreElement = document.createElement("li")
-    scoreElement.innerText = `${score.name} — ${score.score}`
+    scoreElement.innerText = `${score.name} → ${score.score}`
     highScoresDisplayNode.appendChild(scoreElement)
   })
 }

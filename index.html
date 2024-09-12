@@ -21,7 +21,7 @@
 
     <div class="playerInput">
       <label for="playerName">player</label>
-      <input type="text" id="playerName" name="name" autocomplete="name" required minlength="1" maxlength="24" size="24" placeholder="Arthur Dent" />
+      <input type="text" id="playerName" name="name" autocomplete="name" minlength="1" maxlength="24" size="24" placeholder="Arthur Dent"/>
     </div>
 
     <button id="start-btn" class="button">PLAY</button>
@@ -67,8 +67,8 @@
 
     <p id="score-display">your score is: <span id="player-total-score">42</span></p>
 
-    <div class="top-scores-display"></div>
-      <h3>top scores</h3>
+    <div id="top-scores-display"></div>
+      <h3 class="top-scores">top scores</h3>
       <ul id="high-scores-list"></ul>
     <div id="top-scores-display-end">
 
@@ -85,8 +85,8 @@
 
     <p id="score-display">your score is: <span id="winner-total-score">42</span></p>
 
-    <div class="top-scores-display">
-      <h3>top scores</h3>
+    <div id="top-scores-display-win">
+      <h3 class="top-scores">top scores</h3>
       <ul id="high-scores-list-win"></ul>
     </div>
 
