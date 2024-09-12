@@ -26,6 +26,9 @@ const gameBoxNode = document.querySelector("#game-box")
 // player
 let playerNameInput = document.querySelector("#playerName")
 
+// audio
+let explosionEffect = new Audio("./assets/audio/explosion_002.wav")
+let bulletEffect = new Audio("./assets/audio/space-bullet.wav")
 
 // **********************************************************************
 // GLOBAL VARIABLES
@@ -43,13 +46,15 @@ let towelCount = 0
 let damageCount = 0
 
 let timer = 0
-let winningTime = 16 // ==> 2' 40" == 160"
+let winningTime = 260 // ==> 4'20" == 260
 
 let spaceshipsArray = []
+let bulletsArray = []
 let towelArray = []
 
 let towelSpeed = 6
 let spaceshipSpeed = 3
+let bulletSpeed = 5
 
 let spaceshipsFrequency = 1000
 let towelFrequency = 3000
@@ -140,6 +145,8 @@ function gameLoop() { // this happens each 60"
   updateTotalCrashedSpaceshipsCounter()
   updateTowelCounter() ///////////////////////// is this needed?
   catchTowel()
+  detectBulletCollision()
+  updateBullets()
   removeSkippedSpaceships()
   removeUsedTowels()
 }
@@ -177,7 +184,64 @@ function throwTowel() {
   // console.log('NEW TOWEL')
 }
 
+function hitchhikerShoots() {
+  if (towelCount < 3) return
 
+  let bullet = new Bullet(hitchhikerObj.x + hitchhikerObj.w / 2 - 2.5, hitchhikerObj.y - 10, 5) // bullet position
+  bulletsArray.push(bullet)
+  bulletEffect.volume = 0.05
+  bulletEffect.play()
+  console.log('hitchikker shooting')
+}
+
+function updateBullets() {
+  bulletsArray.forEach((bullet) => {
+    bullet.move();
+    detectBulletCollision()
+  });
+}
+
+function detectBulletCollision() {
+  bulletsArray.forEach((eachBullet, bulletIndex) => {
+    // spaceshipsArray.forEach((eachSpaceship, spaceshipIndex) => {
+      spaceshipsArray.forEach((eachSpaceship) => {
+      if (
+        eachBullet.x < eachSpaceship.x + eachSpaceship.w &&
+        eachBullet.x + eachBullet.width > eachSpaceship.x &&
+        eachBullet.y < eachSpaceship.y + eachSpaceship.h &&
+        eachBullet.y + eachBullet.height > eachSpaceship.y
+      ) {
+
+        if (eachSpaceship.isCrashed) return
+
+        eachBullet.remove()
+        bulletsArray.splice(bulletIndex, 1)
+
+        explosionEffect = new Audio("./assets/audio/explosion_002.wav")
+        explosionEffect.volume = 0.02
+        explosionEffect.play()
+        eachSpaceship.node.src = "./assets/explosion-0.png"
+        eachSpaceship.isCrashed = true
+
+        // // removes element from the screen after bullet -->
+        setTimeout(() => {
+          eachSpaceship.node.remove()
+          spaceshipsArray.splice(spaceshipsArray.indexOf(eachSpaceship), 1)
+          // spaceshipsArray.splice(spaceshipIndex, 1)
+          console.log('spaceship removed after bullet')
+        }, 500)
+
+        // eachSpaceship.node.remove()
+        // // spaceshipsArray.splice(spaceshipIndex, 1)
+        // spaceshipsArray.splice(spaceshipsArray.indexOf(eachSpaceship), 1)
+        // // spaceshipsArray.shift()
+        // console.log('spaceship removed after bullet');
+
+        collisionCount++
+      }
+    });
+  });
+}
 
 function detectSpaceshipColision() {
 
@@ -195,7 +259,7 @@ function detectSpaceshipColision() {
     ) {
       // console.log('hitchhiker crashed!')
 
-      let explosionEffect = new Audio("./assets/audio/explosion_002.wav")
+      explosionEffect = new Audio("./assets/audio/explosion_002.wav")
       explosionEffect.volume = 0.02
       explosionEffect.play()
       eachSpaceship.node.src = "./assets/explosion-0.png" // changes image to show
@@ -337,7 +401,7 @@ function catchTowel() {
       console.log('immunity activated!')
       let immunityEffect = new Audio("./assets/audio/immunity-effect.wav")
       immunityEffect.volume = 0.07
-      immunityEffect.playbackRate = 0.45
+      immunityEffect.playbackRate = 0.50
       immunityEffect.play()
 
       hitchhikerObj.node.style.transition = "width 0.7s ease, height 0.7s ease"
@@ -356,7 +420,7 @@ function catchTowel() {
         hitchhikerObj.node.src = "./assets/hitchhiker.png"
         hitchhikerObj.node.style.width = `${hitchhikerObj.w}px`
         hitchhikerObj.node.style.height = `${hitchhikerObj.h}px`
-      }, 4750)
+      }, 4000)
     }
   })
 }
@@ -379,7 +443,7 @@ function increaseSpaceshipSpeed() { // increases speed and frequency
 
   increaseSpeedIntervalId = setInterval(() => {
     if (spaceshipSpeed >= 7) return
-    if (spaceshipsFrequency <= 250) return
+    if (spaceshipsFrequency <= 240) return
 
     spaceshipSpeed += 0.10
     spaceshipsFrequency -= 40
@@ -502,7 +566,7 @@ function resetGame() {
   updateLifeBar()
 
   spaceshipsFrequency = 1000
-  towelFrequency = 2400
+  towelFrequency = 3000
 
   if (playerNameInput || playerName) {
     playerNameInput.value = ""
@@ -554,3 +618,12 @@ window.addEventListener("keyup", (event) => {
     hitchhikerObj.keys.right = false;
   }
 })
+
+document.addEventListener("keydown", (event) => {
+  if (isGameRunning === false) return;
+
+  if (event.key === "k") {
+    // console.log("Key 'k' pressed")
+    hitchhikerShoots()
+  }
+});
