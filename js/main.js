@@ -433,8 +433,9 @@ function winGame() {
 
   isGameRunning = false
 
-  let playerTotalScore = totalScore()
+  playerTotalScore = totalScore()
   console.log(playerTotalScore)
+  playerScoreDisplay.innerHTML = playerTotalScore
 
   clearAllIntervals()
 
