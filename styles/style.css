@@ -4,6 +4,7 @@ body {
   margin: 0;
   background: rgb(2,0,36);
   background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 45%, rgba(11,5,89,1) 100%);
+  /* height: 100vh; */
 }
 
 .container {
@@ -112,6 +113,37 @@ video {
   background-color: #ff6b6b;
 }
 
+#instructions {
+  min-width: 500px;
+  font-family: "VT323", monospace;
+  font-size: 25px;
+  font-weight: 400;
+  color: #fce149;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid #fce149;
+  border-radius: 15px;
+  padding: 20px;
+  margin: 50px auto;
+  text-align: center;
+  box-shadow: 2px 2px 10px #849685;
+}
+
+#instructions ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 15px;
+}
+
+#instructions li {
+  margin: 10px;
+  font-size: 27px;
+  text-transform: uppercase;
+  color: #00ff00;
+  text-shadow: 1px 1px 3px #000000;
+  padding: 5px;
+  border-radius: 5px;
+}
+
 .game-box-wrapper {
   display: flex;
   flex-direction: column;
@@ -212,13 +244,13 @@ video {
 
 #music-control {
   display: flex;
-  gap: 5px;
+  gap: 7px;
 }
 
 #music-control img {
   width: 40px;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease;
 }
 
 #music-control img:hover {
@@ -248,7 +280,7 @@ video {
 }
 
 #credits a:hover, #credits a:active {
-  font-size: 17;
+  color: #00ff00;  
   text-shadow: 2px 2px 4px #7c7c7c;
 }
 

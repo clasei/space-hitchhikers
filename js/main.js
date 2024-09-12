@@ -75,7 +75,7 @@ let towelCount = 0
 let damageCount = 0
 
 let timer = 0
-let winningTime = 240 // ==> 4'20" == 260
+let winningTime = 260 // ==> 4'20" == 260"
 
 let spaceshipsArray = []
 let bulletsArray = []
