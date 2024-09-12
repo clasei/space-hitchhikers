@@ -65,7 +65,11 @@
     <video src="./assets/video/video-game-loop-game-over.mp4" alt="game-over" autoplay loop muted></video>
     <button id="play-again-btn" class="button">PLAY AGAIN</button>
 
-    <p id="score-display">your score is: <span id="player-total-score">42</span></span>
+    <p id="score-display">your score is: <span id="player-total-score">42</span></p>
+      <ul id="high-scores-list"></ul>
+    <div id="top-scores-display-end">
+
+    </div>
     
   </div>
 
@@ -76,14 +80,18 @@
     <video src="./assets/video/video-game-loop-you-win.mp4" alt="you-win" autoplay loop muted></video>
     <button id="play-again-btn-win" class="button">I WANT MORE</button>
 
-    <p id="score-display">your score is: <span id="winner-total-score">42</span></span>
+    <p id="score-display">your score is: <span id="winner-total-score">42</span></p>
+    <div id="top-scores-display-win">
+      <ul id="high-scores-list-win"></ul>
+    </div>
 
   </div>
 
-  <script src="./js/main.js"></script>
+  <script src="./js/localStorage.js"></script>
   <script src="./js/Hitchhiker.js"></script>
   <script src="./js/Spaceship.js"></script>
   <script src="./js/Towel.js"></script>
-  
+  <script src="./js/main.js"></script>
+
 </body>
 </html>

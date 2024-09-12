@@ -23,6 +23,9 @@ const gameBoxNode = document.querySelector("#game-box")
   // life-bar
   const lifeBarNode = document.querySelector("#life-bar")
 
+// player
+let playerNameInput = document.querySelector("#playerName")
+
 
 // **********************************************************************
 // GLOBAL VARIABLES
@@ -40,7 +43,7 @@ let towelCount = 0
 let damageCount = 0
 
 let timer = 0
-let winningTime = 160 // ==> 2' 40" == 160"
+let winningTime = 16 // ==> 2' 40" == 160"
 
 let spaceshipsArray = []
 let towelArray = []
@@ -60,7 +63,6 @@ let playerTotalScore = 0
 
 // player
 let playerName = ""
-let playerNameInput = document.querySelector("#playerName")
 
 
 // **********************************************************************
@@ -424,6 +426,9 @@ function gameOver() {
   console.log(playerTotalScore)
   playerScoreDisplay.innerHTML = playerTotalScore
 
+  saveScoreToLocalStorage();
+  displayHighScores("#high-scores-list");
+
   clearAllIntervals()
 
   gameScreenNode.style.display = "none"
@@ -437,6 +442,9 @@ function winGame() {
   playerTotalScore = totalScore()
   console.log(playerTotalScore)
   winnerScoreDisplay.innerHTML = playerTotalScore
+
+  saveScoreToLocalStorage()
+  displayHighScores("#high-scores-list-win")
 
   clearAllIntervals()
 
