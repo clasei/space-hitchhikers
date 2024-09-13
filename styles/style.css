@@ -17,7 +17,7 @@ body {
 
 h1 {
   font-family: "VT323", monospace;
-  font-size: 75px;
+  font-size: 84px;
   letter-spacing: 1px;
   color: #fce149;
   text-shadow: 2px 2px 10px #849685;
@@ -116,7 +116,7 @@ video {
 #instructions {
   min-width: 500px;
   font-family: "VT323", monospace;
-  font-size: 25px;
+  font-size: 24px;
   font-weight: 400;
   color: #fce149;
   background: rgba(0, 0, 0, 0.6);
@@ -128,10 +128,36 @@ video {
   box-shadow: 2px 2px 10px #849685;
 }
 
+.inline-icon {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+}
+
+.instruction-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  vertical-align: middle;
+  background-color: #f5f5f5d5;
+  border-radius: 15px; 
+  padding: 5px;
+  border: 2px solid #fce149;
+  box-shadow: 0px 0px 5px #d0d0d094;
+}
+
+#instructions strong {
+  font-size: 35px;
+}
+
 #instructions ul {
   list-style-type: none;
   padding: 0;
   margin-top: 15px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
 }
 
 #instructions li {
@@ -187,9 +213,9 @@ video {
   position: absolute;
   top: 10px;
   left: 15px;
-  font-size: 42px;
+  font-size: 45px;
   font-weight: 600;
-  color: white;
+  color: #f5f5f5;
   font-family: "VT323", monospace;
 }
 
@@ -245,6 +271,7 @@ video {
 #music-control {
   display: flex;
   gap: 7px;
+  opacity: 85%;
 }
 
 #music-control img {
