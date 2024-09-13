@@ -44,7 +44,7 @@ video {
 
 .playerInput label {
   margin-bottom: 5px;
-  font-size: 24px;
+  font-size: 27px;
   color: #fce149;
 }
 
@@ -116,7 +116,7 @@ video {
 #instructions {
   min-width: 500px;
   font-family: "VT323", monospace;
-  font-size: 24px;
+  font-size: 21px;
   font-weight: 400;
   color: #fce149;
   background: rgba(0, 0, 0, 0.6);
@@ -147,7 +147,7 @@ video {
 }
 
 #instructions strong {
-  font-size: 35px;
+  font-size: 27px;
 }
 
 #instructions ul {
@@ -168,6 +168,11 @@ video {
   text-shadow: 1px 1px 3px #000000;
   padding: 5px;
   border-radius: 5px;
+}
+
+#marvin {
+  width: 20px;
+  vertical-align: bottom;
 }
 
 .game-box-wrapper {
