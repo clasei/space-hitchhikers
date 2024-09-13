@@ -170,6 +170,11 @@ video {
   border-radius: 5px;
 }
 
+#marvin {
+  width: 20px;
+  vertical-align: bottom;
+}
+
 .game-box-wrapper {
   display: flex;
   flex-direction: column;
