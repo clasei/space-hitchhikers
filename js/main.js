@@ -91,7 +91,7 @@ let spaceshipsFrequency = 1000
 let towelFrequency = 3000
 
 let totalCollisionsGameOver = 5
-let towelShoot = 10
+let towelShoot = 42
 
 // player
 let playerName = ""
@@ -272,7 +272,7 @@ function detectBulletCollision() {
           eachSpaceship.node.remove()
           spaceshipsArray.splice(spaceshipsArray.indexOf(eachSpaceship), 1)
           // spaceshipsArray.splice(spaceshipIndex, 1)
-          console.log('spaceship removed after bullet')
+          // console.log('spaceship removed after bullet')
         }, 500)
 
         collisionCount++
@@ -476,7 +476,7 @@ function removeUsedTowels() {
 function increaseSpaceshipSpeed() { // increases speed and frequency
 
   increaseSpeedIntervalId = setInterval(() => {
-    console.log(`speed = ${spaceshipSpeed} frequency = ${spaceshipsFrequency}`)
+    // console.log(`speed = ${spaceshipSpeed} frequency = ${spaceshipsFrequency}`)
     if (spaceshipSpeed >= 7) return
     if (spaceshipsFrequency <= 300) return
 
@@ -616,7 +616,9 @@ function resetGame() {
 
   playerTotalScore = 0
   playerScoreDisplay.innerHTML = 0
-
+  
+  messageShoot.innerHTML = ""
+  messageShoot.style.display = "none"
 }
 
 
