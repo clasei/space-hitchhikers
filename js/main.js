@@ -77,7 +77,7 @@ let towelCount = 0
 let damageCount = 0
 
 let timer = 0
-let winningTime = 260 // ==> 4'20" == 260"
+let winningTime = 42 // ==> 4'20" == 260"
 
 let spaceshipsArray = []
 let bulletsArray = []
@@ -91,7 +91,7 @@ let spaceshipsFrequency = 1000
 let towelFrequency = 2700
 
 let totalCollisionsGameOver = 5
-let towelShoot = 42
+let towelShoot = 3
 
 // player
 let playerName = ""
@@ -118,7 +118,7 @@ function startGame() {
   towelFrequency = 2700
   spaceshipSpeed = 3
   towelSpeed = 6
-  towelShoot = 42
+  towelShoot = 3
 
   startScreenNode.style.display = "none"
   gameScreenNode.style.display = "flex"
@@ -598,11 +598,11 @@ document.addEventListener("keydown", (event) => {
 musicOffIcon.addEventListener('click', () => {
   musicOffIcon.style.display = 'none'
   musicOnIcon.style.display = 'block'
-  spaceThemeSong.play()
+  spaceThemeSong.pause()
 })
 
 musicOnIcon.addEventListener('click', () => {
   musicOnIcon.style.display = 'none'
   musicOffIcon.style.display = 'block'
-  spaceThemeSong.pause()
+  spaceThemeSong.play()
 })
