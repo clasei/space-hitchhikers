@@ -22,6 +22,8 @@ const gameBoxNode = document.querySelector("#game-box")
   const totalCollisionsNode = document.querySelector("#total-collisions")
   // life-bar
   const lifeBarNode = document.querySelector("#life-bar")
+  // shoot-message
+  const messageShoot = document.querySelector("#shoot-available-message")
 
 // player
 let playerNameInput = document.querySelector("#playerName")
@@ -89,6 +91,7 @@ let spaceshipsFrequency = 1000
 let towelFrequency = 3000
 
 let totalCollisionsGameOver = 5
+let towelShoot = 2
 
 // player
 let playerName = ""
@@ -123,6 +126,7 @@ function startGame() {
   gameScreenNode.style.display = "flex"
   hitchhikerObj = new Hitchhiker() 
   // spaceshipObj = new Spaceship() // not needed, array created in moveSpaceship()
+  messageShoot.style.display = "none"
 
   // GAME-INTERVAL CREATED BELOW
   gameIntervalId = setInterval(() => {
@@ -211,8 +215,23 @@ function throwTowel() {
   // console.log('NEW TOWEL')
 }
 
+function showShootAvailableMessage() {
+
+  
+  messageShoot.style.display = "flex";
+  // console.log('shoot message blocked')
+  
+  setTimeout(() => {
+    messageShoot.remove()
+    messageShoot.style.display = "none"
+    
+
+    // console.log('shoot message hidden')
+  }, 3000);
+}
+
 function hitchhikerShoots() {
-  if (towelCount < 21) return
+  if (towelCount < towelShoot) return
 
   let bullet = new Bullet(hitchhikerObj.x + hitchhikerObj.w / 2 - 2.5, hitchhikerObj.y - 10, 5) // bullet position
   bulletsArray.push(bullet)
@@ -407,6 +426,11 @@ function catchTowel() {
       towelCount += 1
       updateTowelCounter()
       // console.log(`total towels = ${towelCount}`)
+
+      if (towelCount === towelShoot) {
+        showShootAvailableMessage()
+        console.log('shoot message')
+      }
     
       if (hitchhikerObj.isImmune) return
       immunityEffect.play()
