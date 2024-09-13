@@ -91,7 +91,7 @@ let spaceshipsFrequency = 1000
 let towelFrequency = 3000
 
 let totalCollisionsGameOver = 5
-let towelShoot = 2
+let towelShoot = 10
 
 // player
 let playerName = ""
