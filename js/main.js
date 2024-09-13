@@ -22,6 +22,8 @@ const gameBoxNode = document.querySelector("#game-box")
   const totalCollisionsNode = document.querySelector("#total-collisions")
   // life-bar
   const lifeBarNode = document.querySelector("#life-bar")
+  // shoot-message
+  const messageShoot = document.querySelector("#shoot-available-message")
 
 // player
 let playerNameInput = document.querySelector("#playerName")
@@ -86,9 +88,10 @@ let spaceshipSpeed = 3
 let bulletSpeed = 9
 
 let spaceshipsFrequency = 1000
-let towelFrequency = 3000
+let towelFrequency = 2700
 
 let totalCollisionsGameOver = 5
+let towelShoot = 42
 
 // player
 let playerName = ""
@@ -108,26 +111,22 @@ function startGame() {
   spaceThemeSong.loop = true
 
   playerName = playerNameInput.value
-  // console.log(playerName)
 
   clearAllIntervals()
 
   spaceshipsFrequency = 1000
-  towelFrequency = 3000
+  towelFrequency = 2700
   spaceshipSpeed = 3
   towelSpeed = 6
+  towelShoot = 42
 
-  // console.log('start click')
-  // change start to game screen
   startScreenNode.style.display = "none"
   gameScreenNode.style.display = "flex"
   hitchhikerObj = new Hitchhiker() 
-  // spaceshipObj = new Spaceship() // not needed, array created in moveSpaceship()
+  messageShoot.style.display = "none"
 
-  // GAME-INTERVAL CREATED BELOW
   gameIntervalId = setInterval(() => {
-    // console.log('interval running')
-    gameLoop() // this function will be executed each 60"
+    gameLoop()
   }, Math.round(1000/60))
 
   spaceshipsIntervalId = setInterval(() => {
@@ -140,11 +139,9 @@ function startGame() {
 
   timerIntervalId = setInterval(() => {
     timer++
-    // console.log(timer)
     checkTimer()
     updateTimeDisplay()
-  }, 1000) // interval increases time after each 1" --> until it reaches 4' 20"
-
+  }, 1000)
 
   towelCount = 0
   updateTowelCounter()
@@ -157,8 +154,7 @@ function startGame() {
   increaseSpaceshipSpeed()
 }
 
-function gameLoop() { // this happens each 60"
-  // console.log('game loop starting')
+function gameLoop() {
   spaceshipsArray.forEach((eachSpaceship) => {
     eachSpaceship.moveDown()
   })
@@ -170,7 +166,7 @@ function gameLoop() { // this happens each 60"
   hitchhikerObj.hitchhikerMovement()
   detectSpaceshipColision()
   updateTotalCrashedSpaceshipsCounter()
-  updateTowelCounter() ///////////////////////// is this needed?
+  updateTowelCounter()
   catchTowel()
   detectBulletCollision()
   updateBullets()
@@ -181,7 +177,6 @@ function gameLoop() { // this happens each 60"
 function convertTime(seconds) {
   let minutes = Math.floor(seconds / 60)
   let secondsLeft = seconds % 60
-  // .padStart() method available as alternative to display time...
   if (minutes < 10) {
     minutes = '0' + minutes;
   }
@@ -197,28 +192,31 @@ function updateTimeDisplay() {
 
 function moveSpaceship() { // moves spaceship randomly in X axis
   let randomPositionX = Math.random() * (gameBoxNode.offsetWidth - 37)
-
   let newSpaceship = new Spaceship(randomPositionX, spaceshipSpeed) // spaceships created
   spaceshipsArray.push(newSpaceship)
-  // console.log('NEW SPACESHIP')
 }
 
 function throwTowel() {
   let randomPositionTowel = Math.random() * (gameBoxNode.offsetWidth - 24)
-
   let newTowel = new Towel(randomPositionTowel, towelSpeed) // towels created
   towelArray.push(newTowel)
-  // console.log('NEW TOWEL')
+}
+
+function showShootAvailableMessage() {
+
+  messageShoot.style.display = "flex";
+  setTimeout(() => {
+    messageShoot.remove()
+    messageShoot.style.display = "none"
+  }, 3000);
 }
 
 function hitchhikerShoots() {
-  if (towelCount < 21) return
+  if (towelCount < towelShoot) return
 
   let bullet = new Bullet(hitchhikerObj.x + hitchhikerObj.w / 2 - 2.5, hitchhikerObj.y - 10, 5) // bullet position
   bulletsArray.push(bullet)
-  
   bulletEffect.play()
-  // console.log('hitchikker shooting')
 }
 
 function updateBullets() {
@@ -248,12 +246,10 @@ function detectBulletCollision() {
         eachSpaceship.node.src = "./assets/explosion-0.png"
         eachSpaceship.isCrashed = true
 
-        // // removes target from the screen after bullet -->
+        // removes target from the screen after bullet -->
         setTimeout(() => {
           eachSpaceship.node.remove()
           spaceshipsArray.splice(spaceshipsArray.indexOf(eachSpaceship), 1)
-          // spaceshipsArray.splice(spaceshipIndex, 1)
-          console.log('spaceship removed after bullet')
         }, 500)
 
         collisionCount++
@@ -276,36 +272,28 @@ function detectSpaceshipColision() {
       hitchhikerObj.y < eachSpaceship.y + eachSpaceship.h &&
       hitchhikerObj.y + hitchhikerObj.h > eachSpaceship.y
     ) {
-      // console.log('hitchhiker crashed!')
 
       explosionEffect.volume = 0.02
       explosionEffect.play()
       eachSpaceship.node.src = "./assets/explosion-0.png" // changes image to show
       eachSpaceship.isCrashed = true // avoids multiple detection and stops de function in the loop
-
       if (eachSpaceship.isCrashed === true) {
 
         // // removes element from the screen after crash -->
         setTimeout(() => {
           eachSpaceship.node.remove()
           spaceshipsArray.splice(spaceshipsArray.indexOf(eachSpaceship), 1)
-          // console.log('spaceship removed after explosion')
         }, 500)
       }
 
       collisionCount++
-      // console.log('spaceship crashed +1')
-
       hitchhikerDamaged()
-
       if (damageCount >= totalCollisionsGameOver) {
 
-        isGameEnding = true /// NEW TO AVOID ISSUES WITH LOCAL STORAGE
-
+        isGameEnding = true // avoids issues with localStorage.js
         if (hitchhikerObj.isAlive === false) return
 
         lastExplosionEffect.play()
-        
         hitchhikerObj.node.style.transition = "width 0.7s ease, height 0.7s ease"
         hitchhikerObj.node.src = "./assets/explosion-0.png"
         hitchhikerObj.w = 100
@@ -322,8 +310,6 @@ function detectSpaceshipColision() {
         hitchhikerObj.isAlive = false
 
         setTimeout(() => {
-
-          // console.log('GAME OVER')
           gameOver()
         }, 1000)
       }
@@ -333,24 +319,17 @@ function detectSpaceshipColision() {
 
 function hitchhikerDamaged() {
   if (hitchhikerObj.isImmune) return
-
   damageCount++
-  console.log(`total damage: ${damageCount}`)
   updateLifeBar()
 }
 
-
 function updateLifeBar() {
-  // let maxCollisions = totalCollisionsGameOver
-  // let lifePercentage = ((maxCollisions - collisionCount) / maxCollisions) * 100
   let lifePercentage = ((totalCollisionsGameOver - damageCount) / totalCollisionsGameOver) * 100
-
   lifeBarNode.style.width = `${lifePercentage}%`
-
 }
 
 function removeSkippedSpaceships() {
-  spaceshipsArray.forEach((eachSpaceship, index) => { // index used to remove each element of the array
+  spaceshipsArray.forEach((eachSpaceship) => { // index used to remove each element of the array
 
     if (eachSpaceship.isCrashed === true) return
 
@@ -359,8 +338,6 @@ function removeSkippedSpaceships() {
     if (eachSpaceship.y > gameBoxNode.offsetHeight) {
       eachSpaceship.node.remove() // removes spaceship from the DOM
       spaceshipsArray.splice(spaceshipsArray.indexOf(eachSpaceship), 1)
-      // spaceshipsArray.shift() // removes spaceship from the array
-      // console.log('spaceship removed')
     }
   })
 }
@@ -390,15 +367,11 @@ function catchTowel() {
       hitchhikerObj.y + hitchhikerObj.h > eachTowel.y
     ) {
 
-      // if (eachTowel.isCatched) return
-
       eachTowel.isCatched = true // avoids multiple detection
       towelEffect.play()
 
-      // changes image size in JS
       eachTowel.w = 50
       eachTowel.h = 50
-      // changes image size in DOM
       eachTowel.node.style.width = `${eachTowel.w}px`
       eachTowel.node.style.height = `${eachTowel.h}px`
       eachTowel.node.src = "./assets/power-up.png" 
@@ -406,12 +379,13 @@ function catchTowel() {
       
       towelCount += 1
       updateTowelCounter()
-      // console.log(`total towels = ${towelCount}`)
+      if (towelCount === towelShoot) {
+        showShootAvailableMessage()
+      }
     
       if (hitchhikerObj.isImmune) return
       immunityEffect.play()
       hitchhikerObj.isImmune = true
-      // console.log('immunity activated!')
       
       hitchhikerObj.node.style.transition = "width 0.7s ease, height 0.7s ease"
       hitchhikerObj.node.src = "./assets/hitchhiker-power-up.png"
@@ -438,13 +412,9 @@ function catchTowel() {
 function removeUsedTowels() {
 
   towelArray.forEach((eachTowel, index) => { // index used to remove each element of the array
-
-    // if (eachTowel.isCatched) return
-
     if (eachTowel.y > gameBoxNode.offsetHeight) {
       eachTowel.node.remove() // removes towel from the DOM
       towelArray.splice(index, 1) // removes towel from the array
-      // console.log('towel removed')
     }
   })
 }
@@ -452,7 +422,6 @@ function removeUsedTowels() {
 function increaseSpaceshipSpeed() { // increases speed and frequency
 
   increaseSpeedIntervalId = setInterval(() => {
-    console.log(`speed = ${spaceshipSpeed} frequency = ${spaceshipsFrequency}`)
     if (spaceshipSpeed >= 7) return
     if (spaceshipsFrequency <= 300) return
 
@@ -463,8 +432,6 @@ function increaseSpaceshipSpeed() { // increases speed and frequency
     spaceshipsIntervalId = setInterval(() => {
       moveSpaceship()
     }, spaceshipsFrequency)
-
-    
   }, 5000)
 }
 
@@ -475,13 +442,9 @@ function checkTimer() {
   }
 }
 
-// +++++++++++++++++++++++++++++++++++++++
-
 function totalScore() {
   return ((towelCount * 2 + 1) * (collisionCount * 1 + 1) + ((timer * 2 + 2) * (totalCollisionsGameOver - damageCount + 42)))
 }
-
-// console.log(playerTotalScore)
 
 function stopAudio() {
   if (!spaceThemeSong.paused)
@@ -501,16 +464,12 @@ function clearAllIntervals() {
 function gameOver() {
 
   isGameRunning = false
-
   stopAudio()
-  
   playerTotalScore = totalScore()
-  console.log(playerTotalScore)
   playerScoreDisplay.innerHTML = playerTotalScore
 
   saveScoreToLocalStorage();
-  displayHighScores("#high-scores-list");
-
+  displayHighScores("#high-scores-list")
   clearAllIntervals()
 
   gameScreenNode.style.display = "none"
@@ -520,20 +479,13 @@ function gameOver() {
 function winGame() {
 
   isGameRunning = false
-
   stopAudio()
-
   youWin.play()
-
   playerTotalScore = totalScore()
-  console.log(playerTotalScore)
   winnerScoreDisplay.innerHTML = playerTotalScore
-
   saveScoreToLocalStorage()
   displayHighScores("#high-scores-list-win")
-
   clearAllIntervals()
-
   gameScreenNode.style.display = "none"
   winScreenNode.style.display = "flex"
 }
@@ -558,7 +510,6 @@ function resetGame() {
   towelArray = []
 
   hitchhikerObj.node.remove()
-  // console.log('hitchhiker removed')
   hitchhikerObj = null
  
   gameIntervalId = null
@@ -574,7 +525,6 @@ function resetGame() {
   totalCollisionsNode.innerHTML = 0
 
   timer = 0
-  // updates timer to 00:00
   checkTimer()
   updateTimeDisplay()
   timerIntervalId = null
@@ -583,7 +533,7 @@ function resetGame() {
   updateLifeBar()
 
   spaceshipsFrequency = 1000
-  towelFrequency = 3000
+  towelFrequency = 2700
 
   if (playerNameInput || playerName) {
     playerNameInput.value = ""
@@ -592,7 +542,9 @@ function resetGame() {
 
   playerTotalScore = 0
   playerScoreDisplay.innerHTML = 0
-
+  
+  messageShoot.innerHTML = ""
+  messageShoot.style.display = "none"
 }
 
 
@@ -639,7 +591,6 @@ window.addEventListener("keyup", (event) => {
 document.addEventListener("keydown", (event) => {
   if (isGameRunning === false) return;
   if (event.key === "k") {
-    // console.log("Key 'k' pressed")
     hitchhikerShoots()
   }
 })
