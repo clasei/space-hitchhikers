@@ -87,7 +87,7 @@ let towelSpeed = 6
 let spaceshipSpeed = 3
 let bulletSpeed = 9
 
-let spaceshipsFrequency = 1000
+let spaceshipsFrequency = 1300
 let towelFrequency = 2700
 
 let totalCollisionsGameOver = 5
@@ -114,7 +114,7 @@ function startGame() {
 
   clearAllIntervals()
 
-  spaceshipsFrequency = 1000
+  spaceshipsFrequency = 1300
   spaceshipSpeed = 3
   towelFrequency = 2700
   towelSpeed = 6 // added here in case it's increased in the future
@@ -530,7 +530,7 @@ function resetGame() {
   damageCount = 0
   updateLifeBar()
 
-  spaceshipsFrequency = 1000
+  spaceshipsFrequency = 1300
   spaceshipSpeed = 3
   towelFrequency = 2700
   towelSpeed = 6
