@@ -77,7 +77,7 @@ let towelCount = 0
 let damageCount = 0
 
 let timer = 0
-let winningTime = 42 // ==> 4'20" == 260"
+let winningTime = 260 // ==> 4'20" == 260" seconds = winning time
 
 let spaceshipsArray = []
 let bulletsArray = []
@@ -91,7 +91,7 @@ let spaceshipsFrequency = 1000
 let towelFrequency = 2700
 
 let totalCollisionsGameOver = 5
-let towelShoot = 2
+let towelShoot = 42
 
 // player
 let playerName = ""
@@ -115,10 +115,9 @@ function startGame() {
   clearAllIntervals()
 
   spaceshipsFrequency = 1000
-  towelFrequency = 2700
   spaceshipSpeed = 3
-  towelSpeed = 6
-  towelShoot = 2
+  towelFrequency = 2700
+  towelSpeed = 6 // added here in case it's increased in the future
 
   startScreenNode.style.display = "none"
   gameScreenNode.style.display = "flex"
@@ -532,7 +531,9 @@ function resetGame() {
   updateLifeBar()
 
   spaceshipsFrequency = 1000
+  spaceshipSpeed = 3
   towelFrequency = 2700
+  towelSpeed = 6
 
   if (playerNameInput || playerName) {
     playerNameInput.value = ""
