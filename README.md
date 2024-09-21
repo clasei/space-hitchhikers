@@ -74,4 +74,4 @@ SpaceHitchhikers is an exciting game where you control the hitchhiker, who must 
 
 ### Special Thanks
 
-Big shoutout to 🐈 Lira for making everything more enjoyable, and to 🎯 Breakout Room 12 for making the process a spacial breeze!
+Special thanx to Breakout Room 12 for making the process a spacial breeze. 🚀
